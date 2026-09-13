@@ -7,11 +7,12 @@ import Navigation from './components/Navigation';
 import Hero from './components/Hero';
 import GrainOverlay from './components/ui/GrainOverlay';
 import WhatWeDo from './components/sections/WhatWeDo';
-import WhySkalorix from './components/sections/WhySkalorix';
-import OurApproach from './components/sections/OurApproach';
-import DigitalExperience from './components/sections/DigitalExperience';
-import ServicesDetail from './components/sections/ServicesDetail';
+import AboutPartner from './components/sections/AboutPartner';
 import SelectedWork from './components/sections/SelectedWork';
+import OurApproach from './components/sections/OurApproach';
+import WhySkalorix from './components/sections/WhySkalorix';
+import DigitalExperience from './components/sections/DigitalExperience';
+import Testimonials from './components/sections/Testimonials';
 import CTASection from './components/sections/CTASection';
 import Footer from './components/sections/Footer';
 
@@ -38,13 +39,14 @@ export default function App() {
       <Navigation />
       
       <main>
-        <Hero />
+        <Hero isLoaded={isLoaded} />
         <WhatWeDo />
-        <WhySkalorix />
-        <OurApproach />
-        <DigitalExperience />
-        <ServicesDetail />
+        <AboutPartner />
         <SelectedWork />
+        <OurApproach />
+        <WhySkalorix />
+        <DigitalExperience />
+        <Testimonials />
         <CTASection />
       </main>
       
@@ -52,3 +54,4 @@ export default function App() {
     </CursorProvider>
   );
 }
+

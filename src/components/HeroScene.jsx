@@ -36,27 +36,27 @@ export default function HeroScene() {
       >
         <Suspense fallback={null}>
           {/* Cinematic Lighting */}
-          <ambientLight intensity={0.3} color={0xF8F4EA} />
+          <ambientLight intensity={0.75} color={0xFFFAF2} />
           
           {/* Key light */}
           <directionalLight
-            position={[5, 5, 5]}
-            intensity={0.8}
-            color={0xF8F4EA}
+            position={[5, 6, 6]}
+            intensity={1.2}
+            color={0xFFFAF2}
           />
           
           {/* Soft Ochre rim light */}
           <pointLight
-            position={[-4, 3, -3]}
-            intensity={1.2}
-            color={0xD4B483}
+            position={[-4, 3, -2]}
+            intensity={1.5}
+            color={0xE8C07A}
             distance={15}
           />
           
           {/* Cool fill light */}
           <pointLight
             position={[3, -2, 4]}
-            intensity={0.4}
+            intensity={0.6}
             color={0x8BA99C}
             distance={12}
           />
@@ -64,18 +64,22 @@ export default function HeroScene() {
           {/* Bottom accent */}
           <pointLight
             position={[0, -4, 0]}
-            intensity={0.3}
+            intensity={0.4}
             color={0x1B2E24}
             distance={10}
           />
 
-          <HeroSculpture mouse={mouseRef} />
-          <Particles count={200} isMobile={isMobile} />
+          <HeroSculpture
+            mouse={mouseRef}
+            position={isMobile ? [1.5 , 2.9, -6] : [2.90, -0.05, -0.4]}
+            scale={isMobile ? 0.62 : 1.05}
+          />
+          <Particles count={isMobile ? 120 : 200} isMobile={isMobile} />
           
-          <Environment preset="city" environmentIntensity={0.3} />
+          <Environment preset="city" environmentIntensity={0.25} />
 
-          {/* Subtle fog */}
-          <fog attach="fog" args={['#F8F4EA', 8, 25]} />
+          {/* Distant fog */}
+          <fog attach="fog" args={['#F8F4EA', 14, 40]} />
         </Suspense>
       </Canvas>
     </div>

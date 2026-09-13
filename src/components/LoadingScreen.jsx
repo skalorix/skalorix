@@ -99,7 +99,7 @@ export default function LoadingScreen({ onComplete }) {
         ))}
       </div>
       <div ref={taglineRef} className="loading-screen__tagline">
-        Ideas Into Impact.
+        Scale Beyond Limits.
       </div>
       <div ref={lineRef} className="loading-screen__line" />
     </div>

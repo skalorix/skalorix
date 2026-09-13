@@ -10,7 +10,7 @@ export default function Navigation() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 80);
+      setScrolled(window.scrollY > 40);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
@@ -36,74 +36,119 @@ export default function Navigation() {
   }, []);
 
   return (
-    <nav className={`nav ${scrolled ? 'nav--scrolled' : ''}`} id="navigation">
-      <div className="nav__inner">
-        <a href="#" className="nav__logo">
-          <SkalorixLogo size="md" />
-        </a>
+    <>
+      <nav className={`nav ${scrolled ? 'nav--scrolled scrolled' : ''}`} id="navigation">
+        <div className="nav__inner">
+          <a href="#home" className="nav__logo" onClick={(e) => handleNavClick(e, '#home')}>
+            <SkalorixLogo size="md" />
+          </a>
 
-        {/* Desktop links */}
-        <ul className="nav__links">
-          {NAV_ITEMS.map((item) => (
-            <li key={item.label}>
+          {/* Desktop Navigation Links */}
+          <ul className="nav__links">
+            <li>
               <a
-                href={item.href}
+                href="#home"
                 className="nav__link"
-                onClick={(e) => handleNavClick(e, item.href)}
+                onClick={(e) => handleNavClick(e, '#home')}
                 onMouseEnter={onMouseEnterInteractive}
                 onMouseLeave={onMouseLeaveInteractive}
               >
-                {item.label}
+                Home
               </a>
             </li>
-          ))}
-          <li>
+            {NAV_ITEMS.map((item) => (
+              <li key={item.label}>
+                <a
+                  href={item.href}
+                  className="nav__link"
+                  onClick={(e) => handleNavClick(e, item.href)}
+                  onMouseEnter={onMouseEnterInteractive}
+                  onMouseLeave={onMouseLeaveInteractive}
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          {/* Editorial Pill CTAs */}
+          <div className="nav-cta" style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+            <a
+              href="#work"
+              className="btn-pill btn-outline nav-cta-desktop"
+              onClick={(e) => handleNavClick(e, '#work')}
+              onMouseEnter={onMouseEnterInteractive}
+              onMouseLeave={onMouseLeaveInteractive}
+            >
+              Explore Work
+            </a>
             <a
               href="#contact"
-              className="nav__cta"
+              className="btn-pill btn-primary"
               onClick={(e) => handleNavClick(e, '#contact')}
               onMouseEnter={onMouseEnterInteractive}
               onMouseLeave={onMouseLeaveInteractive}
             >
-              Start a Project
+              Let's Talk <span>→</span>
             </a>
-          </li>
-        </ul>
 
-        {/* Mobile toggle */}
-        <button
-          className={`nav__toggle ${mobileOpen ? 'nav__toggle--open' : ''}`}
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Toggle menu"
-        >
-          <span className="nav__toggle-line" />
-          <span className="nav__toggle-line" />
-          <span className="nav__toggle-line" />
-        </button>
-
-        {/* Mobile menu */}
-        <div className={`nav__mobile-menu ${mobileOpen ? 'nav__mobile-menu--open' : ''}`}>
-          {NAV_ITEMS.map((item, i) => (
-            <a
-              key={item.label}
-              href={item.href}
-              className="nav__mobile-link"
-              onClick={(e) => handleNavClick(e, item.href)}
-              style={{ transitionDelay: mobileOpen ? `${0.1 + i * 0.08}s` : '0s' }}
+            {/* Mobile hamburger button */}
+            <button
+              className={`hamburger ${mobileOpen ? 'open' : ''}`}
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="Toggle navigation menu"
+              onMouseEnter={onMouseEnterInteractive}
+              onMouseLeave={onMouseLeaveInteractive}
             >
-              {item.label}
-            </a>
-          ))}
+              <span />
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Mobile Menu Drawer with Editorial Numbering */}
+      <div className={`mobile-menu ${mobileOpen ? 'open' : ''}`} id="mobileMenu">
+        <a href="#home" onClick={(e) => handleNavClick(e, '#home')}>
+          Home <small>01</small>
+        </a>
+        <a href="#services" onClick={(e) => handleNavClick(e, '#services')}>
+          Services <small>02</small>
+        </a>
+        <a href="#about" onClick={(e) => handleNavClick(e, '#about')}>
+          About <small>03</small>
+        </a>
+        <a href="#work" onClick={(e) => handleNavClick(e, '#work')}>
+          Work <small>04</small>
+        </a>
+        <a href="#process" onClick={(e) => handleNavClick(e, '#process')}>
+          Process <small>05</small>
+        </a>
+        <a href="#why" onClick={(e) => handleNavClick(e, '#why')}>
+          Why Us <small>06</small>
+        </a>
+        <a href="#contact" onClick={(e) => handleNavClick(e, '#contact')}>
+          Contact <small>08</small>
+        </a>
+
+        <div style={{ marginTop: 'auto', paddingTop: '24px' }}>
           <a
             href="#contact"
-            className="nav__mobile-cta"
+            className="btn-pill btn-primary"
+            style={{
+              width: '100%',
+              height: '52px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '15px',
+            }}
             onClick={(e) => handleNavClick(e, '#contact')}
-            style={{ transitionDelay: mobileOpen ? `${0.1 + NAV_ITEMS.length * 0.08}s` : '0s' }}
           >
-            Start a Project
+            Start a Project →
           </a>
         </div>
       </div>
-    </nav>
+    </>
   );
 }
+

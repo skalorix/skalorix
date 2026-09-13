@@ -1,111 +1,230 @@
 import { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Float } from '@react-three/drei';
+import { Float, useTexture } from '@react-three/drei';
 import * as THREE from 'three';
+import logoData from './logoPaths.json';
 
-export default function HeroSculpture({ mouse }) {
+export default function HeroSculpture({ mouse, position = [1.15, -0.05, -0.3], scale = 1.05 }) {
   const groupRef = useRef();
-  const icosaRef = useRef();
-  const torusRef = useRef();
-  const octaRef = useRef();
-  const innerRef = useRef();
+  const starRef = useRef();
+  // const ring1Ref = useRef();
+  // const ring2Ref = useRef();
+
+  // Load high-resolution logo texture and smooth normal map
+  const [logoTexture, smoothNormal] = useTexture([
+    '/assets/skalorix-s-logo.png',
+    '/assets/skalorix-s-smooth-normal.png',
+  ]);
+
+  // Configure texture parameters
+  useMemo(() => {
+    if (logoTexture) {
+      logoTexture.colorSpace = THREE.SRGBColorSpace;
+      logoTexture.anisotropy = 8;
+      logoTexture.needsUpdate = true;
+    }
+  }, [logoTexture]);
+
+  // World dimensions for exact sub-pixel UV alignment
+  const wWorld = logoData.img_width * logoData.scale;
+  const hWorld = logoData.img_height * logoData.scale;
+
+  const customUVGenerator = useMemo(() => ({
+    generateTopUV: function (geometry, vertices, indexA, indexB, indexC) {
+      return [
+        new THREE.Vector2(vertices[indexA * 3] / wWorld + 0.5, vertices[indexA * 3 + 1] / hWorld + 0.5),
+        new THREE.Vector2(vertices[indexB * 3] / wWorld + 0.5, vertices[indexB * 3 + 1] / hWorld + 0.5),
+        new THREE.Vector2(vertices[indexC * 3] / wWorld + 0.5, vertices[indexC * 3 + 1] / hWorld + 0.5),
+      ];
+    },
+    generateSideWallUV: function () {
+      return [
+        new THREE.Vector2(0, 0),
+        new THREE.Vector2(1, 0),
+        new THREE.Vector2(1, 1),
+        new THREE.Vector2(0, 1),
+      ];
+    },
+  }), [wWorld, hWorld]);
+
+  // Helper to build extruded geometry with multi-material groups (front artwork, gold bevels/sides)
+  const buildExtrusion = (contourPts, depth, bevelSize = 0.02) => {
+    const shape = new THREE.Shape();
+    contourPts.forEach((p, i) => {
+      if (i === 0) shape.moveTo(p[0], p[1]);
+      else shape.lineTo(p[0], p[1]);
+    });
+    shape.closePath();
+
+    const geom = new THREE.ExtrudeGeometry(shape, {
+      depth,
+      bevelEnabled: true,
+      bevelSegments: 3,
+      steps: 1,
+      bevelSize,
+      bevelThickness: bevelSize,
+      UVGenerator: customUVGenerator,
+    });
+
+    const capCount = geom.groups[0].count;
+    const halfCap = capCount / 2;
+    const total = geom.attributes.position.count;
+
+    geom.clearGroups();
+    geom.addGroup(halfCap, halfCap, 0); // Front face: full artwork texture & sheen
+    geom.addGroup(0, halfCap, 1); // Back plate: luxury gold
+    geom.addGroup(capCount, total - capCount, 1); // Extruded sides & bevels: luxury gold
+
+    geom.computeVertexNormals();
+    return geom;
+  };
+
+  // 1. Top Emerald Ribbon Geometry
+  const topGeometry = useMemo(() => {
+    return buildExtrusion(logoData.top_ribbon, 0.16, 0.022);
+  }, []);
+
+  // 2. Middle Sage Ribbon Geometry
+  const midGeometry = useMemo(() => {
+    return buildExtrusion(logoData.mid_ribbon, 0.14, 0.02);
+  }, []);
+
+  // 3. Lower Brushed Gold Wing Geometry
+  const bottomGeometry = useMemo(() => {
+    return buildExtrusion(logoData.bottom_wing, 0.16, 0.022);
+  }, []);
+
+  // 4. Floating 4-Point Celestial Star Geometry
+  const starGeometry = useMemo(() => {
+    return buildExtrusion(logoData.star, 0.09, 0.016);
+  }, []);
 
   // Materials
-  const darkGreenMat = useMemo(() => new THREE.MeshPhysicalMaterial({
-    color: 0x1B2E24,
-    metalness: 0.7,
-    roughness: 0.2,
-    clearcoat: 0.3,
-    clearcoatRoughness: 0.1,
-    envMapIntensity: 1.5,
+  // A. Brushed / Polished Luxury Gold for extruded sides, bevels, and backplate
+  const goldSideMat = useMemo(() => new THREE.MeshPhysicalMaterial({
+    color: 0xC89B3C,
+    metalness: 0.88,
+    roughness: 0.22,
+    clearcoat: 0.6,
+    clearcoatRoughness: 0.15,
+    envMapIntensity: 1.0,
   }), []);
 
-  const chromeMat = useMemo(() => new THREE.MeshPhysicalMaterial({
-    color: 0x333333,
-    metalness: 0.95,
-    roughness: 0.05,
-    clearcoat: 1,
-    clearcoatRoughness: 0.05,
-    envMapIntensity: 2,
-  }), []);
-
-  const glassMat = useMemo(() => new THREE.MeshPhysicalMaterial({
-    color: 0xD4B483,
-    metalness: 0.1,
-    roughness: 0.05,
-    transmission: 0.7,
-    thickness: 0.5,
-    transparent: true,
-    opacity: 0.6,
-    envMapIntensity: 1,
-  }), []);
-
-  const ochreMat = useMemo(() => new THREE.MeshPhysicalMaterial({
-    color: 0xD4B483,
-    metalness: 0.8,
-    roughness: 0.15,
+  // B. Silky PBR Front Material for Ribbon Faces — vibrant, rich saturation without white washout
+  const frontMat = useMemo(() => new THREE.MeshPhysicalMaterial({
+    map: logoTexture,
+    normalMap: smoothNormal,
+    normalScale: new THREE.Vector2(0.12, 0.12),
+    metalness: 0.12, // Keeps the rich emerald, sage, and gold hues saturated
+    roughness: 0.32,
     clearcoat: 0.5,
-    emissive: 0xD4B483,
-    emissiveIntensity: 0.08,
-    envMapIntensity: 1.5,
+    clearcoatRoughness: 0.18,
+    envMapIntensity: 0.5,
+  }), [logoTexture, smoothNormal]);
+
+  // C. Front Radiant Star Material
+  const starFrontMat = useMemo(() => new THREE.MeshPhysicalMaterial({
+    map: logoTexture,
+    normalMap: smoothNormal,
+    normalScale: new THREE.Vector2(0.15, 0.15),
+    metalness: 0.45,
+    roughness: 0.22,
+    clearcoat: 0.8,
+    clearcoatRoughness: 0.1,
+    envMapIntensity: 1.1,
+    emissive: 0xD4A853,
+    emissiveIntensity: 0.2,
+  }), [logoTexture, smoothNormal]);
+
+  // D. Emerald satin accent material
+  const emeraldRingMat = useMemo(() => new THREE.MeshPhysicalMaterial({
+    color: 0x1B382B,
+    metalness: 0.75,
+    roughness: 0.22,
+    clearcoat: 0.8,
+    envMapIntensity: 1.2,
   }), []);
 
+  // Dynamic interactive animations
   useFrame((state) => {
     const time = state.clock.getElapsedTime();
-    
+
     if (groupRef.current) {
-      // Subtle mouse-following rotation
-      const targetX = (mouse.current?.y || 0) * 0.15;
-      const targetY = (mouse.current?.x || 0) * 0.15;
-      groupRef.current.rotation.x += (targetX - groupRef.current.rotation.x) * 0.02;
-      groupRef.current.rotation.y += (targetY - groupRef.current.rotation.y) * 0.02;
+      // Interactive mouse-following rotation with soft lerp damping
+      const targetX = (mouse.current?.y || 0) * 0.2;
+      const targetY = (mouse.current?.x || 0) * 0.24;
+      groupRef.current.rotation.x += (targetX - groupRef.current.rotation.x) * 0.035;
+      groupRef.current.rotation.y += (targetY - groupRef.current.rotation.y) * 0.035;
+
+      // Natural organic breathing sway
+      groupRef.current.rotation.z = Math.sin(time * 0.35) * 0.02;
     }
 
-    if (icosaRef.current) {
-      icosaRef.current.rotation.y = time * 0.08;
-      icosaRef.current.rotation.z = Math.sin(time * 0.3) * 0.05;
-    }
-
-    if (torusRef.current) {
-      torusRef.current.rotation.x = time * 0.12;
-      torusRef.current.rotation.z = time * 0.06;
-    }
-
-    if (octaRef.current) {
-      octaRef.current.rotation.y = -time * 0.1;
-      octaRef.current.rotation.x = Math.cos(time * 0.4) * 0.1;
-    }
-
-    if (innerRef.current) {
-      innerRef.current.rotation.y = time * 0.15;
-      innerRef.current.scale.setScalar(1 + Math.sin(time * 0.5) * 0.03);
+    // Independent floating bob and subtle shimmer on the 4-point celestial star
+    if (starRef.current) {
+      starRef.current.position.z = 0.12 + Math.sin(time * 1.8) * 0.025;
+      starRef.current.rotation.z = Math.sin(time * 0.6) * 0.04;
     }
   });
 
   return (
-    <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.5}>
-      <group ref={groupRef} position={[2, 0, 0]}>
-        {/* Main icosahedron - dark green */}
-        <mesh ref={icosaRef} material={darkGreenMat}>
-          <icosahedronGeometry args={[1.4, 1]} />
-        </mesh>
+    <Float speed={1.2} rotationIntensity={0.12} floatIntensity={0.35}>
+      <group ref={groupRef} position={position} scale={scale}>
+        {/* Middle Sage/Emerald Ribbon */}
+        <mesh
+          geometry={midGeometry}
+          material={[frontMat, goldSideMat]}
+          position={[0, 0, 0]}
+        />
 
-        {/* Orbiting torus - chrome */}
-        <mesh ref={torusRef} material={chromeMat}>
-          <torusGeometry args={[1.8, 0.04, 16, 64]} />
-        </mesh>
+        {/* Top Emerald Ribbon (layered slightly forward in 3D) */}
+        <mesh
+          geometry={topGeometry}
+          material={[frontMat, goldSideMat]}
+          position={[0, 0, 0.03]}
+        />
 
-        {/* Floating octahedron - ochre metallic */}
-        <mesh ref={octaRef} position={[0, 0, 0]} material={ochreMat}>
-          <octahedronGeometry args={[0.5, 0]} />
-        </mesh>
+        {/* Lower Brushed Gold Wing (layered slightly forward in 3D) */}
+        <mesh
+          geometry={bottomGeometry}
+          material={[frontMat, goldSideMat]}
+          position={[0, 0, 0.025]}
+        />
 
-        {/* Inner glass sphere */}
-        <mesh ref={innerRef} material={glassMat}>
-          <sphereGeometry args={[0.7, 32, 32]} />
-        </mesh>
+        {/* Floating 4-Point Celestial Star with Parallax Depth */}
+        <group ref={starRef} position={[0, 0, 0.12]}>
+          <mesh
+            geometry={starGeometry}
+            material={[starFrontMat, goldSideMat]}
+          />
+          {/* Warm celestial glow focused on the star */}
+          <pointLight
+            position={[0.7, 0.42, 0.25]}
+            intensity={1.0}
+            distance={3.5}
+            color={0xFFEBB5}
+          />
+        </group>
 
-        {/* Small accent spheres */}
+        {/* Thin Gold Orbital Ring framing the sculpture */}
+        {/* <mesh
+          ref={ring1Ref}
+          rotation={[Math.PI / 3.4, 0.15, Math.PI / 6]}
+          material={goldSideMat}
+        >
+          <torusGeometry args={[2.3, 0.007, 8, 128]} />
+        </mesh> */}
+
+        {/* Thin Emerald Orbital Ring */}
+        {/* <mesh
+          ref={ring2Ref}
+          rotation={[-Math.PI / 4, Math.PI / 5, 0.2]}
+          material={emeraldRingMat}
+        >
+          <torusGeometry args={[1.9, 0.006, 8, 128]} />
+        </mesh> */}
+
+        {/* Delicate floating metallic accent spheres */}
         {[...Array(6)].map((_, i) => {
           const angle = (i / 6) * Math.PI * 2;
           const radius = 2.2;
@@ -114,24 +233,20 @@ export default function HeroSculpture({ mouse }) {
               key={i}
               position={[
                 Math.cos(angle) * radius,
-                Math.sin(angle * 2) * 0.5,
-                Math.sin(angle) * radius,
+                Math.sin(angle * 2.5) * 0.45,
+                Math.sin(angle) * radius * 0.7,
               ]}
-              material={i % 2 === 0 ? ochreMat : chromeMat}
+              material={i % 2 === 0 ? goldSideMat : emeraldRingMat}
             >
-              <sphereGeometry args={[0.05, 8, 8]} />
+              <sphereGeometry args={[0.035, 12, 12]} />
             </mesh>
           );
         })}
-
-        {/* Thin orbital rings */}
-        <mesh rotation={[Math.PI / 3, 0, Math.PI / 6]} material={ochreMat}>
-          <torusGeometry args={[2.5, 0.008, 8, 128]} />
-        </mesh>
-        <mesh rotation={[-Math.PI / 4, Math.PI / 5, 0]} material={chromeMat}>
-          <torusGeometry args={[2.1, 0.008, 8, 128]} />
-        </mesh>
       </group>
     </Float>
   );
 }
+
+// Preload assets
+useTexture.preload('/assets/skalorix-s-logo.png');
+useTexture.preload('/assets/skalorix-s-smooth-normal.png');

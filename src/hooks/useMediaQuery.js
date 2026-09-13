@@ -35,7 +35,9 @@ export function useIsTouchDevice() {
   const [isTouch, setIsTouch] = useState(false);
   
   useEffect(() => {
-    setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    // A device is strictly touch-only if it cannot hover and only has a coarse pointer (e.g. mobile phones)
+    const isTouchOnly = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+    setIsTouch(isTouchOnly);
   }, []);
 
   return isTouch;

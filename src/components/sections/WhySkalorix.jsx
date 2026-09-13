@@ -1,52 +1,50 @@
 import { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { PRINCIPLES } from '../../utils/constants';
+import { HeartHandshake, Layers, Eye, ShieldCheck, Infinity as InfinityIcon } from 'lucide-react';
+import { WHY_POINTS } from '../../utils/constants';
 import SectionLabel from '../ui/SectionLabel';
-import SkalorixLogo from '../ui/SkalorixLogo';
+import { useCursor } from '../../contexts/CursorContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const ICON_MAP = {
+  'heart-handshake': HeartHandshake,
+  'layers': Layers,
+  'eye': Eye,
+  'shield-check': ShieldCheck,
+  'infinity': InfinityIcon,
+};
+
 export default function WhySkalorix() {
   const sectionRef = useRef(null);
+  const { onMouseEnterInteractive, onMouseLeaveInteractive } = useCursor();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const items = sectionRef.current?.querySelectorAll('.principles__item');
-      
-      items?.forEach((item, i) => {
-        const title = item.querySelector('.principles__title');
-        const desc = item.querySelector('.principles__desc');
-        const number = item.querySelector('.principles__number');
+      gsap.from('.why-left-reveal', {
+        opacity: 0,
+        x: -30,
+        duration: 0.8,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 75%',
+          toggleActions: 'play none none none',
+        },
+      });
 
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: item,
-            start: 'top 80%',
-            toggleActions: 'play none none none',
-          },
-        });
-
-        tl.from(number, {
-          opacity: 0,
-          x: -20,
-          duration: 0.6,
-          ease: 'power3.out',
-        });
-
-        tl.from(title, {
-          opacity: 0,
-          y: 40,
-          duration: 0.8,
-          ease: 'power3.out',
-        }, '-=0.3');
-
-        tl.from(desc, {
-          opacity: 0,
-          y: 20,
-          duration: 0.6,
-          ease: 'power3.out',
-        }, '-=0.4');
+      gsap.from('.why-boxed-item', {
+        opacity: 0,
+        y: 20,
+        duration: 0.6,
+        stagger: 0.08,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 70%',
+          toggleActions: 'play none none none',
+        },
       });
     }, sectionRef);
 
@@ -54,31 +52,50 @@ export default function WhySkalorix() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="section section--dark" id="about">
-      <div className="container">
-        <SectionLabel dark>
-          Why <SkalorixLogo size="sm" color="var(--soft-ochre)" />
-        </SectionLabel>
+    <section ref={sectionRef} className="why-section-split" id="why">
+      <div className="container why-split-grid">
+        {/* Left Column: Headline & Live Status Badge */}
+        <div className="why-left-content why-left-reveal">
+          <SectionLabel text="Why Us" />
+          <h2>
+            Why Skalorix<br />
+            Feels Different.
+          </h2>
+          <p>
+            We blend editorial taste with engineering discipline. The result is technology that is intuitive to use,
+            resilient under real-world traffic, and engineered to scale seamlessly.
+          </p>
 
-        <h2 style={{ marginBottom: '16px' }}>
-          More Than Marketing.
-        </h2>
-        <p style={{ marginBottom: '64px', color: 'rgba(248,244,234,0.6)' }}>
-          Strategy, creativity and technology working together.
-        </p>
+          <div className="status-badge-live">
+            <span className="status-dot-pulse" />
+            <span>Available for new projects</span>
+          </div>
+        </div>
 
-        <div className="principles">
-          {PRINCIPLES.map((principle) => (
-            <div key={principle.number} className="principles__item">
-              <span className="principles__number">{principle.number}</span>
-              <div>
-                <h3 className="principles__title">{principle.title}</h3>
-                <p className="principles__desc">{principle.description}</p>
+        {/* Right Column: Boxed Pillars List */}
+        <div className="why-boxed-list">
+          {WHY_POINTS.map((item, idx) => {
+            const IconComponent = ICON_MAP[item.icon] || HeartHandshake;
+            return (
+              <div
+                key={idx}
+                className="why-boxed-item"
+                onMouseEnter={onMouseEnterInteractive}
+                onMouseLeave={onMouseLeaveInteractive}
+              >
+                <div className="why-item-icon">
+                  <IconComponent size={22} />
+                </div>
+                <div>
+                  <h4>{item.title}</h4>
+                  <p>{item.desc}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
   );
 }
+

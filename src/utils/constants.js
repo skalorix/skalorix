@@ -1,24 +1,28 @@
 // Brand Colors
 export const COLORS = {
-  deepForest: '#1B2E24',
-  softOchre: '#D4B483',
+  deepForest: '#0F231B',
+  forest2: '#132E24',
+  forest3: '#1B3D2F',
+  softOchre: '#C5A67A',
+  goldLight: '#D9C19E',
+  goldDeep: '#A68A62',
+  ivory: '#FDFBF6',
+  ivory2: '#F7F0E6',
+  cream: '#EFE6D5',
   parchment: '#F8F4EA',
   stone: '#A69E93',
-  charcoal: '#2E2E2E',
-  deepForestRgb: '27, 46, 36',
-  softOchreRgb: '212, 180, 131',
-  parchmentRgb: '248, 244, 234',
-  stoneRgb: '166, 158, 147',
-  charcoalRgb: '46, 46, 46',
+  charcoal: '#171D1A',
 };
 
 // Three.js colors (hex numbers)
 export const THREE_COLORS = {
-  deepForest: 0x1B2E24,
-  softOchre: 0xD4B483,
-  parchment: 0xF8F4EA,
+  deepForest: 0x0F231B,
+  forest2: 0x132E24,
+  softOchre: 0xC5A67A,
+  goldLight: 0xD9C19E,
+  parchment: 0xFDFBF6,
   stone: 0xA69E93,
-  charcoal: 0x2E2E2E,
+  charcoal: 0x171D1A,
   black: 0x000000,
   white: 0xffffff,
 };
@@ -29,100 +33,149 @@ export const NAV_ITEMS = [
   { label: 'Work', href: '#work' },
   { label: 'About', href: '#about' },
   { label: 'Process', href: '#process' },
+  { label: 'Why Us', href: '#why' },
   { label: 'Contact', href: '#contact' },
 ];
 
-// Services
+// Services (6 Core Disciplines with interactive tags for the split visual explorer)
 export const SERVICES = [
   {
-    number: '01',
-    title: 'Search Engine Optimization',
-    shortTitle: 'SEO',
-    tagline: 'Be Found. Be Relevant.',
-    description: 'We build organic visibility through technical SEO, content strategy and search intelligence — making sure the right people find you at the right time.',
-    capabilities: ['Technical SEO Audits', 'Keyword Strategy', 'Content Optimization', 'Link Building', 'Local SEO', 'Analytics & Reporting'],
-  },
-  {
-    number: '02',
-    title: 'Creative Services',
-    shortTitle: 'Creative',
-    tagline: 'Make People Remember.',
-    description: 'From brand identity to campaign visuals, we create work that cuts through noise — design that tells stories and builds recognition.',
-    capabilities: ['Brand Identity', 'Visual Design', 'Motion Graphics', 'Campaign Creative', 'Photography Direction', 'Packaging Design'],
-  },
-  {
-    number: '03',
-    title: 'Social Media Management',
-    shortTitle: 'SMM',
-    tagline: 'Build Consistency. Build Community.',
-    description: 'We manage your social presence with intention — building consistent content ecosystems that grow engaged communities around your brand.',
-    capabilities: ['Content Calendars', 'Community Management', 'Platform Strategy', 'Content Creation', 'Engagement Analysis', 'Brand Voice Development'],
-  },
-  {
-    number: '04',
-    title: 'Social Media Marketing',
-    shortTitle: 'Marketing',
-    tagline: 'Turn Attention Into Action.',
-    description: 'Strategic paid social campaigns that reach the right audiences, drive measurable engagement and convert attention into real business outcomes.',
-    capabilities: ['Paid Social Campaigns', 'Audience Targeting', 'A/B Testing', 'Conversion Optimization', 'Influencer Strategy', 'Performance Analytics'],
-  },
-  {
-    number: '05',
-    title: 'Website Development',
-    shortTitle: 'Web',
+    num: '01',
+    name: 'Web Development',
     tagline: 'Digital Experiences That Perform.',
-    description: 'We design and build websites that are beautiful, fast and functional — digital experiences that reflect your brand and drive results.',
-    capabilities: ['UI/UX Design', 'Frontend Development', 'CMS Integration', 'E-Commerce', 'Performance Optimization', 'Responsive Design'],
+    desc: 'High-performance, SEO-ready web platforms engineered with modern frameworks, edge rendering, and obsessive attention to speed and craft.',
+    tags: ['React', 'Next.js', 'Performance', 'Full-Stack'],
+    capabilities: ['UI/UX Design', 'Frontend Engineering', 'CMS Integration', 'E-Commerce', 'Performance Optimization', 'Responsive Layouts'],
   },
   {
-    number: '06',
-    title: 'Software Development',
-    shortTitle: 'Software',
+    num: '02',
+    name: 'Software Development',
     tagline: 'Systems Built Around Your Business.',
-    description: 'Custom software solutions designed around your specific needs — scalable, maintainable systems that grow with your business.',
+    desc: 'Custom business software and application ecosystems that replace chaos with clarity. Scalable, modular, secure, and built to evolve.',
+    tags: ['Custom Architecture', 'Cloud APIs', 'Databases', 'Modular'],
     capabilities: ['Web Applications', 'Mobile Development', 'API Design', 'Database Architecture', 'Cloud Infrastructure', 'Automation'],
   },
+  {
+    num: '03',
+    name: 'Search Engine Optimization',
+    tagline: 'Be Found. Be Relevant.',
+    desc: 'Technical SEO, search intelligence, and structured content architecture for compounding organic visibility — not tricks, but lasting authority.',
+    tags: ['Technical Audits', 'Keyword Strategy', 'Search Intelligence'],
+    capabilities: ['Technical Audits', 'Keyword Strategy', 'Content Optimization', 'Link Building', 'Local SEO', 'Analytics & Reporting'],
+  },
+  {
+    num: '04',
+    name: 'Creative Services',
+    tagline: 'Make People Remember.',
+    desc: 'From distinct brand identity to editorial design systems and campaign visuals, we craft work that cuts through noise and builds lasting recognition.',
+    tags: ['Brand Identity', 'Editorial Design', 'Motion Art'],
+    capabilities: ['Brand Identity', 'Visual Design', 'Motion Graphics', 'Campaign Creative', 'Packaging Design', 'Typography Direction'],
+  },
+  {
+    num: '05',
+    name: 'Social Media Marketing',
+    tagline: 'Turn Attention Into Action.',
+    desc: 'Strategic paid social campaigns that acquire qualified audiences, accelerate growth loops, and turn attention into measurable business outcomes.',
+    tags: ['Paid Media', 'Targeting', 'Conversion Optimization'],
+    capabilities: ['Paid Social Campaigns', 'Audience Targeting', 'A/B Testing', 'Conversion Optimization', 'Performance Analytics', 'Growth Loops'],
+  },
+  {
+    num: '06',
+    name: 'Social Media Management',
+    tagline: 'Build Consistency. Build Community.',
+    desc: 'We cultivate your digital presence with intention — editorial content ecosystems, consistent brand voice, and genuine community engagement.',
+    tags: ['Content Strategy', 'Community Growth', 'Brand Voice'],
+    capabilities: ['Content Calendars', 'Community Management', 'Platform Strategy', 'Content Creation', 'Engagement Analysis', 'Brand Voice'],
+  },
 ];
 
-// Principles (Why SKALORIX)
-export const PRINCIPLES = [
-  { number: '01', title: 'Strategy', description: 'Every decision is backed by clear thinking and purposeful direction.' },
-  { number: '02', title: 'Creativity', description: 'We make work that stands apart — design and content that people remember.' },
-  { number: '03', title: 'Technology', description: 'We build systems that perform — fast, scalable and built for the future.' },
-  { number: '04', title: 'Growth', description: 'Everything we do is designed to move your business forward.' },
-];
-
-// Process Steps
+// Process Steps (4-Step Connected Timeline)
 export const PROCESS_STEPS = [
-  { number: '01', title: 'Discover', description: 'Understand the business, audience and opportunity.' },
-  { number: '02', title: 'Strategize', description: 'Build a clear digital and marketing direction.' },
-  { number: '03', title: 'Create', description: 'Design content, experiences and systems.' },
-  { number: '04', title: 'Launch', description: 'Turn ideas into real digital experiences.' },
-  { number: '05', title: 'Grow', description: 'Optimize, measure and scale.' },
+  {
+    num: '01',
+    title: 'Discover',
+    desc: 'Understand the business, users, and goals. Deep discovery, competitive audits, and honest diagnosis.',
+  },
+  {
+    num: '02',
+    title: 'Plan',
+    desc: 'Create a clear strategy and architectural roadmap. Scope, tech stack, timeline, and measurable milestones.',
+  },
+  {
+    num: '03',
+    title: 'Build',
+    desc: 'Design and develop with precision. Iterative sprints, senior craftsmanship, and transparent reviews.',
+  },
+  {
+    num: '04',
+    title: 'Grow',
+    desc: 'Launch, improve, and scale. Monitoring, conversion optimization, and long-term strategic partnership.',
+  },
 ];
 
-// Portfolio Projects
+// Why Skalorix (Why Skalorix Feels Different)
+export const WHY_POINTS = [
+  {
+    icon: 'heart-handshake',
+    title: 'Human-centered thinking',
+    desc: 'We design for people first. Every interaction is tested against real human behavior, clarity, and accessibility.',
+  },
+  {
+    icon: 'layers',
+    title: 'Scalable technology',
+    desc: 'Modular architecture, clean code, and cloud-native foundations engineered to support your long-term business growth.',
+  },
+  {
+    icon: 'eye',
+    title: 'Transparent collaboration',
+    desc: 'Regular updates, shared ownership, and direct communication. You see progress, challenges, and decisions in real time.',
+  },
+  {
+    icon: 'shield-check',
+    title: 'Quality-driven execution',
+    desc: 'Senior reviews, performance budgets, and rigorous testing ensure your product launches with absolute polish.',
+  },
+  {
+    icon: 'infinity',
+    title: 'Long-term partnership',
+    desc: 'We stay beyond launch. Continuous optimization, ongoing support, and strategic guidance as your business expands.',
+  },
+];
+
+// Featured Project
 export const PROJECTS = [
   {
     id: 1,
-    name: 'SNPIT Android App',
-    category: 'Android Application & UI/UX',
+    name: 'SNPIT. Official Campus Android App',
+    category: 'Mobile Application — Education & Campus Ecosystem',
     client: 'S. N. Patel Institute of Technology',
     tagline: 'Empowering Campus Connectivity & Academic Workflow',
-    description: 'An official Android mobile application developed for SNPIT college to digitize campus life. Streamlines student and faculty access to real-time circulars, academic timetables, exam notifications, and institutional resources in one unified, high-performance interface.',
+    description: 'An official Android mobile application engineered for SNPIT college to digitize the entire campus experience. Streamlines student and faculty access to real-time circulars, academic timetables, exam notifications, attendance updates, and institutional resources in one unified, calm, and performance-optimized mobile interface.',
     year: '2025',
-    color: '#1B2E24',
-    tags: ['Android App', 'Mobile Development', 'UI/UX Design', 'Campus Portal', 'Real-Time Updates'],
     metrics: [
+      { label: 'Timeline', value: '8 Weeks' },
       { label: 'Platform', value: 'Android OS' },
       { label: 'Audience', value: 'Students & Faculty' },
-      { label: 'Focus', value: 'Campus Digitization' },
     ],
+    tags: ['Android App', 'Mobile Development', 'UI/UX Design', 'Campus Portal', 'Real-Time Sync'],
   },
+];
+
+// Testimonials
+export const TESTIMONIALS = [
+  {
+    quote: 'Skalorix brought editorial clarity and technological polish to our campus platform. The experience is calm, reliable, and deeply appreciated by our students and faculty.',
+    author: 'SNPIT Project Lead',
+    role: 'Campus Academic Technology Lead',
+    tag: 'Mobile App Ecosystem',
+    rating: 5,
+    highlight: 'No generic agency feel. Every detail was intentional, responsive, and crafted around real student workflow.',
+  }
 ];
 
 // Social Links
 export const SOCIALS = [
   { label: 'Instagram', href: 'https://www.instagram.com/skalorixofficial/' },
-
+  { label: 'LinkedIn', href: 'https://linkedin.com' },
+  { label: 'Twitter', href: 'https://twitter.com' },
 ];

@@ -112,31 +112,44 @@ export default function CTASection() {
   const directMailtoHref = `mailto:skalorix.work@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}`;
 
   return (
-    <section ref={sectionRef} className="section section--dark cta-section" id="contact">
-      {/* Subtle background pattern */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          opacity: 0.03,
-          backgroundImage: `radial-gradient(circle at 30% 50%, rgba(212,180,131,0.3) 0%, transparent 50%),
-                            radial-gradient(circle at 70% 50%, rgba(212,180,131,0.2) 0%, transparent 40%)`,
-        }}
-      />
+    <section ref={sectionRef} className="cta-section-editorial" id="contact">
+      <div className="container">
+        {/* Subtle background luxury glow */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            opacity: 0.05,
+            pointerEvents: 'none',
+            backgroundImage: `radial-gradient(circle at 25% 40%, rgba(197,166,122,0.4) 0%, transparent 60%),
+                              radial-gradient(circle at 80% 60%, rgba(197,166,122,0.3) 0%, transparent 50%)`,
+          }}
+        />
 
-      <div className="cta-section__content">
-        <h2 className="cta-section__title">
-          Let's Turn Your<br />
-          Ideas Into <span className="text-ochre text-italic">Impact.</span>
-        </h2>
+        <div className="cta-section__content" style={{ position: 'relative', zIndex: 2 }}>
+          <h2 className="cta-section__title" style={{ fontFamily: 'var(--font-display)', fontWeight: 300, fontSize: 'clamp(36px, 5.5vw, 64px)', lineHeight: 0.95, color: 'var(--ivory)' }}>
+            Ready to Build<br />
+            <em style={{ fontStyle: 'italic', color: 'var(--gold-light)' }}>What's Next?</em>
+          </h2>
 
-        <p className="cta-section__subtitle">
-          Have an idea, a business or a digital challenge?<br />
-          Let's build something meaningful.
-        </p>
+          <p className="cta-section__subtitle" style={{ fontSize: '17px', lineHeight: 1.7, color: 'rgba(253,251,246,0.72)', maxWidth: '540px', margin: '20px auto 32px' }}>
+            Have a project in mind, a business to scale, or a digital challenge? Let's build something meaningful together.
+          </p>
+
+          {/* Response Badges */}
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '24px', fontSize: '13px', color: 'rgba(253,251,246,0.7)', marginBottom: '40px', flexWrap: 'wrap' }}>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: 'var(--gold-light)' }} />
+              Response in 24h
+            </span>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: 'var(--gold-light)' }} />
+              Global • Remote-friendly
+            </span>
+          </div>
 
         <div ref={formRef} className="cta-form">
           {isSubmitted ? (
@@ -331,6 +344,7 @@ export default function CTASection() {
           )}
         </div>
       </div>
-    </section>
-  );
+    </div>
+  </section>
+);
 }
