@@ -30,6 +30,7 @@ export default function CTASection() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [result, setResult] = useState('');
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -82,57 +83,48 @@ export default function CTASection() {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setIsSubmitting(true);
+    e.preventDefault();
+    setIsSubmitting(true);
+    setResult('Sending....');
 
-  try {
-    const data = new FormData();
+    try {
+      const data = new FormData(e.target);
 
-    // Web3Forms access key
-    data.append(
-      "access_key",
-      "56b874db-83ff-4656-97b5-23473abc545b"
-    );
+      // Web3Forms access key
+      data.set('access_key', '56b874db-83ff-4656-97b5-23473abc545b');
 
-    // Form fields
-    data.append("name", formData.name);
-    data.append("email", formData.email);
-    data.append("phone", formData.phone);
-    data.append("company", formData.company);
+      // Controlled state values
+      data.set('name', formData.name);
+      data.set('email', formData.email);
+      data.set('phone', formData.phone || 'Not provided');
+      data.set('company', formData.company || 'Not provided');
+      data.set('services', formData.services.length > 0 ? formData.services.join(', ') : 'General Inquiry');
+      data.set('message', formData.message);
 
-    // Convert selected services array into text
-    data.append("services", formData.services.join(", "));
+      // Email routing & branding
+      data.set('subject', `New Project Inquiry from ${formData.name || 'Client'} - ${formData.services.join(', ') || 'General'}`);
+      data.set('from_name', 'Skalorix Website Inquiries');
 
-    data.append("message", formData.message);
-
-    // Optional subject for the email
-    data.append(
-      "subject",
-      `New Project Inquiry - ${formData.services.join(", ") || "General"}`
-    );
-
-    const response = await fetch(
-      "https://api.web3forms.com/submit",
-      {
-        method: "POST",
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
         body: data,
+      });
+
+      const resData = await response.json();
+
+      if (resData.success) {
+        setIsSubmitted(true);
+        setResult('Form Submitted Successfully');
+      } else {
+        setResult(resData.message || 'Error submitting form. Please try again.');
       }
-    );
-
-    const result = await response.json();
-
-    if (result.success) {
-      setIsSubmitted(true);
-    } else {
-      alert(result.message || "Something went wrong.");
+    } catch (error) {
+      console.error('Web3Forms error:', error);
+      setResult('Something went wrong. Please check your connection or email us directly at skalorix.work@gmail.com.');
+    } finally {
+      setIsSubmitting(false);
     }
-  } catch (error) {
-    console.error("Web3Forms error:", error);
-    alert("Something went wrong. Please try again.");
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+  };
 
   const handleReset = () => {
     setFormData({
@@ -144,6 +136,7 @@ export default function CTASection() {
       message: '',
     });
     setIsSubmitted(false);
+    setResult('');
   };
 
   // Pre-formatted mailto draft link for direct email
@@ -235,6 +228,13 @@ export default function CTASection() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} noValidate={false}>
+              {/* Web3Forms Hidden Configuration Fields */}
+              <input type="hidden" name="access_key" value="56b874db-83ff-4656-97b5-23473abc545b" />
+              <input type="hidden" name="subject" value={`New Project Inquiry from ${formData.name || 'Client'} - ${formData.services.join(', ') || 'General'}`} />
+              <input type="hidden" name="from_name" value="Skalorix Website Inquiries" />
+              <input type="hidden" name="services" value={formData.services.join(', ')} />
+              <input type="checkbox" name="botcheck" className="hidden" style={{ display: 'none' }} />
+
               {/* Row 1: Name & Email */}
               <div className="cta-form__grid">
                 <div className="cta-form__group">
@@ -354,6 +354,25 @@ export default function CTASection() {
                 />
               </div>
 
+              {/* Error Alert Display */}
+              {result && !isSubmitted && result !== 'Sending....' && (
+                <div
+                  style={{
+                    padding: '12px 16px',
+                    borderRadius: '10px',
+                    background: 'rgba(239, 68, 68, 0.12)',
+                    border: '1px solid rgba(239, 68, 68, 0.35)',
+                    color: '#FCA5A5',
+                    fontSize: '13.5px',
+                    lineHeight: 1.45,
+                    marginBottom: '20px',
+                    textAlign: 'center',
+                  }}
+                >
+                  {result}
+                </div>
+              )}
+
               {/* Submit Row */}
               <div className="cta-form__submit-row">
                 <div className="cta-form__direct-link">
@@ -375,7 +394,7 @@ export default function CTASection() {
                   onMouseLeave={onMouseLeaveInteractive}
                 >
                   {isSubmitting ? (
-                    <>Sending Inquiry...</>
+                    <>Sending Message...</>
                   ) : (
                     <>
                       <span>Send Message</span>
