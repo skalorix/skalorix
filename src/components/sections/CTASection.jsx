@@ -88,19 +88,36 @@ export default function CTASection() {
   try {
     const data = new FormData();
 
-    data.append("access_key", "56b874db-83ff-4656-97b5-23473abc545b");
+    // Web3Forms access key
+    data.append(
+      "access_key",
+      "56b874db-83ff-4656-97b5-23473abc545b"
+    );
 
+    // Form fields
     data.append("name", formData.name);
     data.append("email", formData.email);
     data.append("phone", formData.phone);
     data.append("company", formData.company);
+
+    // Convert selected services array into text
     data.append("services", formData.services.join(", "));
+
     data.append("message", formData.message);
 
-    const response = await fetch("https://api.web3forms.com/submit", {
-      method: "POST",
-      body: data,
-    });
+    // Optional subject for the email
+    data.append(
+      "subject",
+      `New Project Inquiry - ${formData.services.join(", ") || "General"}`
+    );
+
+    const response = await fetch(
+      "https://api.web3forms.com/submit",
+      {
+        method: "POST",
+        body: data,
+      }
+    );
 
     const result = await response.json();
 
@@ -110,7 +127,7 @@ export default function CTASection() {
       alert(result.message || "Something went wrong.");
     }
   } catch (error) {
-    console.error(error);
+    console.error("Web3Forms error:", error);
     alert("Something went wrong. Please try again.");
   } finally {
     setIsSubmitting(false);
