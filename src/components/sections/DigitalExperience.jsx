@@ -5,12 +5,14 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import OrbitalEcosystem from '../three/OrbitalEcosystem';
 import SectionLabel from '../ui/SectionLabel';
+import { useIsMobile } from '../../hooks/useMediaQuery';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function DigitalExperience() {
   const sectionRef = useRef(null);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const trigger = ScrollTrigger.create({
@@ -61,16 +63,16 @@ export default function DigitalExperience() {
     <section ref={sectionRef} className="section section--dark digital-experience">
       <div className="canvas-wrapper" aria-hidden="true">
         <Canvas
-          camera={{ position: [0, 1, 6], fov: 50 }}
+          camera={{ position: isMobile ? [0, 0.45, 7.2] : [0, 1, 6], fov: isMobile ? 46 : 50 }}
           dpr={Math.min(window.devicePixelRatio, 1.5)}
           gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
         >
           <Suspense fallback={null}>
-            <ambientLight intensity={0.2} />
+            <ambientLight intensity={0.25} />
             <directionalLight position={[3, 5, 3]} intensity={0.5} color={0xF8F4EA} />
             <pointLight position={[-3, 2, -2]} intensity={0.8} color={0xD4B483} distance={10} />
             
-            <OrbitalEcosystem scrollProgress={scrollProgress} />
+            <OrbitalEcosystem scrollProgress={scrollProgress} isMobile={isMobile} />
             
             <Environment preset="night" environmentIntensity={0.2} />
             <fog attach="fog" args={['#1B2E24', 6, 18]} />
@@ -87,6 +89,15 @@ export default function DigitalExperience() {
         <p className="digital-experience__subtitle">
           Everything works together — strategy, creativity and technology unified into a single digital ecosystem.
         </p>
+
+        {/* Dynamic feature pills to eliminate blank space on mobile and add rich context */}
+        <div className="digital-experience__pills">
+          {['SEO & Growth', 'Brand Identity', 'Creative Design', 'Social Media', 'Web Platforms', 'Custom Software'].map((pill) => (
+            <span key={pill} className="digital-experience__pill">
+              {pill}
+            </span>
+          ))}
+        </div>
       </div>
     </section>
   );

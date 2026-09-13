@@ -4,7 +4,7 @@ import { Float, useTexture } from '@react-three/drei';
 import * as THREE from 'three';
 import logoData from './logoPaths.json';
 
-export default function HeroSculpture({ mouse, position = [1.15, -0.05, -0.3], scale = 1.05 }) {
+export default function HeroSculpture({ mouse, position = [1.15, -0.05, -0.3], scale = 1.05, isMobile = false }) {
   const groupRef = useRef();
   const starRef = useRef();
   // const ring1Ref = useRef();
@@ -150,14 +150,19 @@ export default function HeroSculpture({ mouse, position = [1.15, -0.05, -0.3], s
     const time = state.clock.getElapsedTime();
 
     if (groupRef.current) {
-      // Interactive mouse-following rotation with soft lerp damping
-      const targetX = (mouse.current?.y || 0) * 0.2;
-      const targetY = (mouse.current?.x || 0) * 0.24;
-      groupRef.current.rotation.x += (targetX - groupRef.current.rotation.x) * 0.035;
-      groupRef.current.rotation.y += (targetY - groupRef.current.rotation.y) * 0.035;
-
-      // Natural organic breathing sway
-      groupRef.current.rotation.z = Math.sin(time * 0.35) * 0.02;
+      if (isMobile) {
+        // Smooth continuous 3D idle rotation on mobile
+        groupRef.current.rotation.y = time * 0.22;
+        groupRef.current.rotation.x = Math.sin(time * 0.4) * 0.07;
+        groupRef.current.rotation.z = Math.sin(time * 0.3) * 0.03;
+      } else {
+        // Interactive mouse-following rotation with soft lerp damping
+        const targetX = (mouse.current?.y || 0) * 0.2;
+        const targetY = (mouse.current?.x || 0) * 0.24;
+        groupRef.current.rotation.x += (targetX - groupRef.current.rotation.x) * 0.035;
+        groupRef.current.rotation.y += (targetY - groupRef.current.rotation.y) * 0.035;
+        groupRef.current.rotation.z = Math.sin(time * 0.35) * 0.02;
+      }
     }
 
     // Independent floating bob and subtle shimmer on the 4-point celestial star
@@ -206,39 +211,21 @@ export default function HeroSculpture({ mouse, position = [1.15, -0.05, -0.3], s
           />
         </group>
 
-        {/* Thin Gold Orbital Ring framing the sculpture */}
-        {/* <mesh
-          ref={ring1Ref}
-          rotation={[Math.PI / 3.4, 0.15, Math.PI / 6]}
-          material={goldSideMat}
-        >
-          <torusGeometry args={[2.3, 0.007, 8, 128]} />
-        </mesh> */}
-
-        {/* Thin Emerald Orbital Ring */}
-        {/* <mesh
-          ref={ring2Ref}
-          rotation={[-Math.PI / 4, Math.PI / 5, 0.2]}
-          material={emeraldRingMat}
-        >
-          <torusGeometry args={[1.9, 0.006, 8, 128]} />
-        </mesh> */}
-
         {/* Delicate floating metallic accent spheres */}
         {[...Array(6)].map((_, i) => {
           const angle = (i / 6) * Math.PI * 2;
-          const radius = 2.2;
+          const radius = isMobile ? 1.45 : 2.2;
           return (
             <mesh
               key={i}
               position={[
                 Math.cos(angle) * radius,
-                Math.sin(angle * 2.5) * 0.45,
-                Math.sin(angle) * radius * 0.7,
+                Math.sin(angle * 2.5) * 0.35,
+                Math.sin(angle) * radius * 0.6,
               ]}
               material={i % 2 === 0 ? goldSideMat : emeraldRingMat}
             >
-              <sphereGeometry args={[0.035, 12, 12]} />
+              <sphereGeometry args={[isMobile ? 0.028 : 0.035, 12, 12]} />
             </mesh>
           );
         })}

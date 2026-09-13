@@ -81,16 +81,41 @@ export default function CTASection() {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  setIsSubmitting(true);
 
-    // Simulate submission and transition to success state
-    setTimeout(() => {
-      setIsSubmitting(false);
+  try {
+    const data = new FormData();
+
+    data.append("access_key", "c7aae362-831f-40dd-91d3-14787243ebf4");
+
+    data.append("name", formData.name);
+    data.append("email", formData.email);
+    data.append("phone", formData.phone);
+    data.append("company", formData.company);
+    data.append("services", formData.services.join(", "));
+    data.append("message", formData.message);
+
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: data,
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
       setIsSubmitted(true);
-    }, 600);
-  };
+    } else {
+      alert(result.message || "Something went wrong.");
+    }
+  } catch (error) {
+    console.error(error);
+    alert("Something went wrong. Please try again.");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   const handleReset = () => {
     setFormData({

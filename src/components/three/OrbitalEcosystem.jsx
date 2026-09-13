@@ -4,7 +4,7 @@ import * as THREE from 'three';
 
 const SERVICE_LABELS = ['Strategy', 'Creative', 'Social', 'SEO', 'Web', 'Software'];
 
-export default function OrbitalEcosystem({ scrollProgress = 0 }) {
+export default function OrbitalEcosystem({ scrollProgress = 0, isMobile = false }) {
   const groupRef = useRef();
   const coreRef = useRef();
   const orbitsRef = useRef([]);
@@ -48,8 +48,8 @@ export default function OrbitalEcosystem({ scrollProgress = 0 }) {
     orbitsRef.current.forEach((mesh, i) => {
       if (!mesh) return;
       const angle = (time * 0.3 + (i / SERVICE_LABELS.length) * Math.PI * 2);
-      const radius = 2.5 + i * 0.15;
-      const yOffset = Math.sin(time * 0.5 + i) * 0.3;
+      const radius = isMobile ? (1.5 + i * 0.1) : (2.5 + i * 0.15);
+      const yOffset = Math.sin(time * 0.5 + i) * (isMobile ? 0.18 : 0.3);
       
       // Animate into position based on scroll
       const progress = Math.min(1, scrollProgress * 2);
@@ -59,7 +59,7 @@ export default function OrbitalEcosystem({ scrollProgress = 0 }) {
       mesh.position.z = Math.sin(angle) * targetRadius;
       mesh.position.y = yOffset * progress;
       mesh.rotation.y = time * 0.5;
-      mesh.scale.setScalar(0.3 + progress * 0.7);
+      mesh.scale.setScalar((0.3 + progress * 0.7) * (isMobile ? 0.75 : 1.0));
     });
 
     if (groupRef.current) {
@@ -68,18 +68,18 @@ export default function OrbitalEcosystem({ scrollProgress = 0 }) {
   });
 
   return (
-    <group ref={groupRef}>
+    <group ref={groupRef} position={isMobile ? [0, 0.95, 0] : [0, 0, 0]}>
       {/* Central sphere - Growth */}
       <mesh ref={coreRef} material={coreMat}>
-        <sphereGeometry args={[0.6, 32, 32]} />
+        <sphereGeometry args={[isMobile ? 0.38 : 0.6, 32, 32]} />
       </mesh>
 
       {/* Glow ring around core */}
       <mesh rotation={[Math.PI / 2, 0, 0]} material={ringMat}>
-        <torusGeometry args={[1.2, 0.01, 8, 64]} />
+        <torusGeometry args={[isMobile ? 0.78 : 1.2, isMobile ? 0.006 : 0.01, 8, 64]} />
       </mesh>
       <mesh rotation={[Math.PI / 3, Math.PI / 4, 0]} material={ringMat}>
-        <torusGeometry args={[1.8, 0.008, 8, 64]} />
+        <torusGeometry args={[isMobile ? 1.15 : 1.8, isMobile ? 0.005 : 0.008, 8, 64]} />
       </mesh>
 
       {/* Orbiting service elements */}

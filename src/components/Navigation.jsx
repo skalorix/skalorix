@@ -72,7 +72,7 @@ export default function Navigation() {
           </ul>
 
           {/* Editorial Pill CTAs */}
-          <div className="nav-cta" style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+          <div className="nav-cta" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <a
               href="#work"
               className="btn-pill btn-outline nav-cta-desktop"
@@ -84,7 +84,7 @@ export default function Navigation() {
             </a>
             <a
               href="#contact"
-              className="btn-pill btn-primary"
+              className={`btn-pill btn-primary nav-cta-talk ${mobileOpen ? 'nav-cta-talk--hidden' : ''}`}
               onClick={(e) => handleNavClick(e, '#contact')}
               onMouseEnter={onMouseEnterInteractive}
               onMouseLeave={onMouseLeaveInteractive}
@@ -108,43 +108,35 @@ export default function Navigation() {
 
       {/* Mobile Menu Drawer with Editorial Numbering */}
       <div className={`mobile-menu ${mobileOpen ? 'open' : ''}`} id="mobileMenu">
-        <a href="#home" onClick={(e) => handleNavClick(e, '#home')}>
+        <a href="#home" className="mobile-menu__link" onClick={(e) => handleNavClick(e, '#home')}>
           Home <small>01</small>
         </a>
-        <a href="#services" onClick={(e) => handleNavClick(e, '#services')}>
+        <a href="#services" className="mobile-menu__link" onClick={(e) => handleNavClick(e, '#services')}>
           Services <small>02</small>
         </a>
-        <a href="#about" onClick={(e) => handleNavClick(e, '#about')}>
+        <a href="#about" className="mobile-menu__link" onClick={(e) => handleNavClick(e, '#about')}>
           About <small>03</small>
         </a>
-        <a href="#work" onClick={(e) => handleNavClick(e, '#work')}>
+        <a href="#work" className="mobile-menu__link" onClick={(e) => handleNavClick(e, '#work')}>
           Work <small>04</small>
         </a>
-        <a href="#process" onClick={(e) => handleNavClick(e, '#process')}>
+        <a href="#process" className="mobile-menu__link" onClick={(e) => handleNavClick(e, '#process')}>
           Process <small>05</small>
         </a>
-        <a href="#why" onClick={(e) => handleNavClick(e, '#why')}>
+        <a href="#why" className="mobile-menu__link" onClick={(e) => handleNavClick(e, '#why')}>
           Why Us <small>06</small>
         </a>
-        <a href="#contact" onClick={(e) => handleNavClick(e, '#contact')}>
+        <a href="#contact" className="mobile-menu__link" onClick={(e) => handleNavClick(e, '#contact')}>
           Contact <small>08</small>
         </a>
 
-        <div style={{ marginTop: 'auto', paddingTop: '24px' }}>
+        <div className="mobile-menu__footer">
           <a
             href="#contact"
-            className="btn-pill btn-primary"
-            style={{
-              width: '100%',
-              height: '52px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '15px',
-            }}
+            className="mobile-menu__cta-btn"
             onClick={(e) => handleNavClick(e, '#contact')}
           >
-            Start a Project →
+            Start a Project <span>→</span>
           </a>
         </div>
       </div>
