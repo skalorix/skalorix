@@ -133,12 +133,19 @@ export default function Footer() {
           {/* Column 4: Contact & Newsletter */}
           <div className="footer-contact-col">
             <h5>Contact & Newsletter</h5>
-            <p style={{ fontSize: '13.5px', color: 'var(--text-mute)', lineHeight: 1.6, marginBottom: '14px' }}>
-              <strong style={{ color: 'var(--forest)', display: 'block', marginBottom: '2px' }}>Email & Direct:</strong>
-              skalorix.work@gmail.com<br />
-              +91 94094 24528<br />
-              Remote • Global
-            </p>
+            
+            <div className="footer-contact-cards">
+              <div className="footer-contact-item">
+                <span className="footer-contact-label">Direct Reach</span>
+                <a href="mailto:skalorix.work@gmail.com" className="footer-contact-val">skalorix.work@gmail.com</a>
+                <a href="tel:+919409424528" className="footer-contact-val">+91 94094 24528</a>
+              </div>
+              <div className="footer-contact-item">
+                <span className="footer-contact-label">Presence</span>
+                <span className="footer-contact-val">Remote • Global</span>
+                <span className="footer-contact-sub">Bespoke Worldwide</span>
+              </div>
+            </div>
 
             <form onSubmit={handleNewsletterSubmit} className="newsletter-form">
               <input
@@ -152,15 +159,14 @@ export default function Footer() {
               />
               <button
                 type="submit"
-                className="btn-pill btn-primary"
-                style={{ height: '42px', padding: '0 20px', fontSize: '13px' }}
+                className="newsletter-submit-btn"
                 onMouseEnter={onMouseEnterInteractive}
                 onMouseLeave={onMouseLeaveInteractive}
               >
                 Join
               </button>
             </form>
-            <p style={{ fontSize: '11px', color: newsletterStatus.color, marginTop: '8px' }}>
+            <p className="newsletter-status" style={{ color: newsletterStatus.color }}>
               {newsletterStatus.text}
             </p>
           </div>
@@ -168,13 +174,22 @@ export default function Footer() {
 
         {/* Footer Bottom Bar */}
         <div className="footer-bottom-bar">
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-            © {new Date().getFullYear()} <SkalorixLogo size="sm" color="inherit" />. Scale Beyond Limits. All rights reserved.
+          <div className="footer-bottom-bar__brand">
+            <SkalorixLogo size="sm" color="var(--forest)" />
+            <span className="footer-bottom-bar__sep">•</span>
+            <span className="footer-bottom-bar__tagline">Scale Beyond Limits</span>
           </div>
-          <div style={{ display: 'flex', gap: '24px' }}>
+
+          <div className="footer-bottom-bar__links">
             <a href="#" onMouseEnter={onMouseEnterInteractive} onMouseLeave={onMouseLeaveInteractive}>Privacy Policy</a>
+            <span className="footer-bottom-bar__sep">•</span>
             <a href="#" onMouseEnter={onMouseEnterInteractive} onMouseLeave={onMouseLeaveInteractive}>Terms of Service</a>
+            <span className="footer-bottom-bar__sep">•</span>
             <a href="#" onMouseEnter={onMouseEnterInteractive} onMouseLeave={onMouseLeaveInteractive}>Sitemap</a>
+          </div>
+
+          <div className="footer-bottom-bar__copy">
+            © {new Date().getFullYear()} Skalorix. All rights reserved.
           </div>
         </div>
       </div>
