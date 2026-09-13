@@ -106,16 +106,20 @@ export default function SelectedWork() {
 
               {/* Floating App Feature Badges */}
               <div className="floating-app-badge floating-app-badge--top">
-                <span className="badge-pulse" />
-                <span>Native Android • Kotlin</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
+                  <path d="M14.3 2L3 13.3l3.8 3.8L21.9 2H14.3z" fill="#54C5F8" />
+                  <path d="M14.3 10.6L7.4 17.5l3.8 3.8 3.1-3.1 7.6-7.6h-7.6z" fill="#02569B" />
+                  <path d="M11.2 21.3L14.3 18.2l3.8 3.8-3.1 3.1c-.4.4-1.1.4-1.5 0l-2.3-3.8z" fill="#0175C2" />
+                </svg>
+                <span>Flutter • Dart</span>
               </div>
 
               <div className="floating-app-badge floating-app-badge--bottom">
-                <span style={{ color: 'var(--gold)' }}>★</span>
-                <span>Campus ERP & Notices</span>
+                <span style={{ color: 'var(--gold)', fontSize: '13px' }}>★</span>
+                <span>Real-Time Campus ERP</span>
               </div>
 
-              {/* Flagship Android Smartphone Chassis */}
+              {/* Flagship Smartphone Chassis */}
               <div className="phone-device">
                 {/* Physical Hardware Buttons */}
                 <div className="phone-btn phone-btn--volume-up" />
@@ -127,7 +131,7 @@ export default function SelectedWork() {
 
                 {/* OLED Display Screen */}
                 <div className="phone-screen">
-                  {/* Android Status Bar */}
+                  {/* Status Bar */}
                   <div className="android-status-bar">
                     <span className="status-time">09:41</span>
 
@@ -150,15 +154,15 @@ export default function SelectedWork() {
                     </div>
                   </div>
 
-                  {/* App Native Header */}
+                  {/* Flutter App Bar / Header */}
                   <div className="app-header">
                     <div className="app-brand-row">
                       <div className="app-college-crest">S</div>
                       <div className="app-college-info">
-                        <div className="app-college-name">SNPIT & RC</div>
-                        <div className="app-portal-sub">Student Campus App</div>
+                        <div className="app-college-name">SNPIT</div>
+                        <div className="app-portal-sub">CAMPUS PORTAL • FLUTTER</div>
                       </div>
-                      <div className="app-notification-btn">
+                      <div className="app-notification-btn" title="Notifications">
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                           <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
                           <path d="M13.73 21a2 2 0 0 1-3.46 0" />
@@ -167,29 +171,40 @@ export default function SelectedWork() {
                       </div>
                     </div>
 
-                    {/* Student Profile Greeting */}
+                    {/* Student Profile Identity Chip */}
                     <div className="student-profile-chip">
-                      <div className="student-avatar-ring">🎓</div>
-                      <div>
-                        <div style={{ fontSize: '11px', fontWeight: 600, color: '#FFFFFF', lineHeight: 1.2 }}>Aditya Vani</div>
-                        <div style={{ fontSize: '9px', color: 'var(--gold-light)' }}>Computer Science • Sem VI</div>
+                      <div className="student-avatar-ring">AV</div>
+                      <div className="student-info-col">
+                        <div className="student-name-row">
+                          <span className="student-name">Aditya Vani</span>
+                          <span className="student-verified-icon">
+                            <svg width="11" height="11" viewBox="0 0 24 24" fill="#4ADE80">
+                              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                            </svg>
+                          </span>
+                        </div>
+                        <div className="student-sub">B.Tech CSE • Sem VI</div>
+                      </div>
+                      <div className="student-badge-pill">
+                        <span className="student-pulse-dot" />
+                        <span>Active</span>
                       </div>
                     </div>
                   </div>
 
                   {/* App Content Body */}
                   <div className="app-body-content">
-                    {/* Live Circular Card */}
+                    {/* Live Circular Notice Card */}
                     <div className="app-notice-card">
                       <div className="notice-card-tag">
                         <span className="notice-live-dot" />
                         OFFICIAL NOTICE
                       </div>
                       <div className="notice-card-headline">
-                        Mid-Semester Examination Schedules & Room Allocations
+                        Mid-Semester Examination Schedules &amp; Room Allocations
                       </div>
                       <div className="notice-card-footer">
-                        <span>Updated Today, 08:30 AM</span>
+                        <span>Today, 08:30 AM</span>
                         <span className="notice-link">View PDF →</span>
                       </div>
                     </div>
@@ -198,18 +213,27 @@ export default function SelectedWork() {
                     <div className="app-modules-title">QUICK SERVICES</div>
                     <div className="app-modules-grid">
                       <div className="module-tile">
-                        <div className="module-icon-wrap" style={{ background: 'rgba(197, 166, 122, 0.15)', color: 'var(--gold-light)' }}>
-                          📅
+                        <div className="module-icon-wrap module-icon-wrap--gold">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                            <line x1="16" y1="2" x2="16" y2="6" />
+                            <line x1="8" y1="2" x2="8" y2="6" />
+                            <line x1="3" y1="10" x2="21" y2="10" />
+                          </svg>
                         </div>
                         <div className="module-info">
                           <strong>Timetable</strong>
-                          <span>Daily Schedule</span>
+                          <span>Schedule</span>
                         </div>
                       </div>
 
                       <div className="module-tile">
-                        <div className="module-icon-wrap" style={{ background: 'rgba(39, 201, 63, 0.15)', color: '#4ADE80' }}>
-                          📊
+                        <div className="module-icon-wrap module-icon-wrap--green">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <line x1="18" y1="20" x2="18" y2="10" />
+                            <line x1="12" y1="20" x2="12" y2="4" />
+                            <line x1="6" y1="20" x2="6" y2="14" />
+                          </svg>
                         </div>
                         <div className="module-info">
                           <strong>Attendance</strong>
@@ -218,8 +242,11 @@ export default function SelectedWork() {
                       </div>
 
                       <div className="module-tile">
-                        <div className="module-icon-wrap" style={{ background: 'rgba(56, 189, 248, 0.15)', color: '#38BDF8' }}>
-                          📚
+                        <div className="module-icon-wrap module-icon-wrap--blue">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                          </svg>
                         </div>
                         <div className="module-info">
                           <strong>Syllabus</strong>
@@ -228,8 +255,13 @@ export default function SelectedWork() {
                       </div>
 
                       <div className="module-tile">
-                        <div className="module-icon-wrap" style={{ background: 'rgba(168, 85, 247, 0.15)', color: '#C084FC' }}>
-                          🎓
+                        <div className="module-icon-wrap module-icon-wrap--purple">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                          </svg>
                         </div>
                         <div className="module-info">
                           <strong>Faculty</strong>
@@ -239,36 +271,46 @@ export default function SelectedWork() {
                     </div>
                   </div>
 
-                  {/* Native Android Bottom Tabs */}
+                  {/* Flutter Material 3 Navigation Bar */}
                   <div className="app-bottom-nav">
                     <div className="nav-tab active">
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                      </svg>
+                      <div className="nav-tab-indicator">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                        </svg>
+                      </div>
                       <span>Home</span>
                     </div>
                     <div className="nav-tab">
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                      </svg>
+                      <div className="nav-tab-indicator">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                          <line x1="16" y1="13" x2="8" y2="13" />
+                          <line x1="16" y1="17" x2="8" y2="17" />
+                        </svg>
+                      </div>
                       <span>Notices</span>
                     </div>
                     <div className="nav-tab">
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M18 20V10M12 20V4M6 20v-6" />
-                      </svg>
+                      <div className="nav-tab-indicator">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M18 20V10M12 20V4M6 20v-6" />
+                        </svg>
+                      </div>
                       <span>Grades</span>
                     </div>
                     <div className="nav-tab">
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                        <circle cx="12" cy="7" r="4" />
-                      </svg>
+                      <div className="nav-tab-indicator">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                          <circle cx="12" cy="7" r="4" />
+                        </svg>
+                      </div>
                       <span>Profile</span>
                     </div>
                   </div>
 
-                  {/* Android Gesture Bar */}
+                  {/* Gesture Bar */}
                   <div className="android-home-gesture">
                     <div className="android-gesture-bar" />
                   </div>

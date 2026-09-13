@@ -2570,53 +2570,53 @@
   100% { transform: translateY(-6px); }
 }
 
-/* --- Android Smartphone Chassis --- */
+/* --- Flagship Smartphone Chassis --- */
 .phone-device {
   position: relative;
-  width: 280px;
-  height: 520px;
-  background: #15181B;
-  border-radius: 40px;
+  width: 316px;
+  height: 590px;
+  background: #12161A;
+  border-radius: 44px;
   padding: 8px;
-  box-shadow: 0 25px 60px -10px rgba(15, 35, 27, 0.35),
-              0 0 0 1.5px rgba(255, 255, 255, 0.12) inset,
-              0 2px 4px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 28px 70px -10px rgba(15, 35, 27, 0.42),
+              0 0 0 1.5px rgba(255, 255, 255, 0.14) inset,
+              0 2px 6px rgba(0, 0, 0, 0.6);
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
   z-index: 2;
 }
 
 .work-card-editorial:hover .phone-device {
-  transform: translateY(-6px) scale(1.02);
-  box-shadow: 0 35px 70px -10px rgba(15, 35, 27, 0.42),
-              0 0 0 1.5px rgba(197, 166, 122, 0.3) inset;
+  transform: translateY(-6px) scale(1.015);
+  box-shadow: 0 38px 80px -12px rgba(15, 35, 27, 0.5),
+              0 0 0 1.5px rgba(197, 166, 122, 0.35) inset;
 }
 
 /* Physical Hardware Buttons */
 .phone-btn {
   position: absolute;
-  background: #2B2F33;
+  background: #272C32;
   border-radius: 2px;
 }
 
 .phone-btn--volume-up {
   left: -4px;
-  top: 100px;
+  top: 110px;
   width: 3px;
-  height: 40px;
+  height: 42px;
 }
 
 .phone-btn--volume-down {
   left: -4px;
-  top: 150px;
+  top: 162px;
   width: 3px;
-  height: 40px;
+  height: 42px;
 }
 
 .phone-btn--power {
   right: -4px;
-  top: 120px;
+  top: 130px;
   width: 3px;
-  height: 48px;
+  height: 50px;
 }
 
 /* Speaker Earpiece */
@@ -2627,7 +2627,7 @@
   transform: translateX(-50%);
   width: 48px;
   height: 3px;
-  background: #22252A;
+  background: #202429;
   border-radius: 2px;
   z-index: 5;
 }
@@ -2636,45 +2636,46 @@
 .phone-screen {
   width: 100%;
   height: 100%;
-  background: #0D1C15; /* Rich dark forest app background */
-  border-radius: 34px;
+  background: #0A1610; /* Rich dark forest app background */
+  border-radius: 38px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   color: #FFFFFF;
   position: relative;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5) inset;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6) inset;
 }
 
-/* Android Status Bar */
+/* Status Bar */
 .android-status-bar {
-  height: 36px;
-  padding: 0 16px;
+  height: 38px;
+  padding: 0 18px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   font-family: var(--font-body);
   font-size: 11px;
   font-weight: 600;
-  color: rgba(253, 251, 246, 0.85);
+  color: rgba(253, 251, 246, 0.9);
   position: relative;
   z-index: 4;
 }
 
 .status-time {
   font-size: 11px;
+  font-weight: 600;
   letter-spacing: 0.02em;
 }
 
 /* Punch-hole Front Camera */
 .camera-punchhole {
-  width: 11px;
-  height: 11px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   background: #050608;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   position: absolute;
-  top: 12px;
+  top: 14px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -2686,13 +2687,13 @@
   width: 3px;
   height: 3px;
   border-radius: 50%;
-  background: rgba(39, 201, 63, 0.4);
+  background: rgba(39, 201, 63, 0.45);
 }
 
 .status-icons {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
   font-size: 9px;
   font-weight: 700;
 }
@@ -2704,8 +2705,8 @@
 }
 
 .battery-icon {
-  width: 16px;
-  height: 9px;
+  width: 17px;
+  height: 9.5px;
   border: 1.5px solid rgba(253, 251, 246, 0.85);
   border-radius: 2.5px;
   padding: 1px;
@@ -2720,22 +2721,22 @@
   right: -3px;
   top: 2px;
   width: 2px;
-  height: 3px;
+  height: 3.5px;
   background: rgba(253, 251, 246, 0.85);
   border-radius: 0 1px 1px 0;
 }
 
 .battery-level {
-  width: 85%;
+  width: 90%;
   height: 100%;
   background: #4ADE80;
   border-radius: 1px;
 }
 
-/* App Native Header */
+/* Flutter App Bar / Header */
 .app-header {
-  padding: 8px 16px 12px;
-  background: linear-gradient(180deg, rgba(27, 46, 36, 0.85) 0%, rgba(13, 28, 21, 0) 100%);
+  padding: 6px 16px 10px;
+  background: linear-gradient(180deg, rgba(23, 44, 34, 0.9) 0%, rgba(10, 22, 16, 0) 100%);
 }
 
 .app-brand-row {
@@ -2746,93 +2747,170 @@
 }
 
 .app-college-crest {
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
-  background: var(--gold);
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, var(--gold) 0%, #E2C29B 100%);
   color: var(--forest);
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 14px;
+  font-size: 15px;
+  box-shadow: 0 2px 8px rgba(197, 166, 122, 0.35);
+  flex-shrink: 0;
 }
 
 .app-college-info {
   flex: 1;
+  min-width: 0;
 }
 
 .app-college-name {
   font-family: var(--font-body);
-  font-size: 12px;
+  font-size: 12.5px;
   font-weight: 700;
   color: #FFFFFF;
   letter-spacing: 0.02em;
+  line-height: 1.2;
 }
 
 .app-portal-sub {
-  font-size: 9px;
+  font-size: 8.5px;
   color: var(--gold-light);
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
+  font-weight: 600;
+  margin-top: 1px;
 }
 
 .app-notification-btn {
   position: relative;
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.08);
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--ivory);
+  flex-shrink: 0;
+  transition: background 0.2s ease;
 }
 
 .notification-dot {
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 6px;
+  right: 6px;
   width: 6px;
   height: 6px;
   border-radius: 50%;
   background: #FF5F56;
+  box-shadow: 0 0 6px #FF5F56;
 }
 
-/* Student Profile Chip */
+/* Student Profile Chip (Flutter Card) */
 .student-profile-chip {
   margin-top: 10px;
-  padding: 8px 10px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 8px 11px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.09);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 9px;
+  backdrop-filter: blur(8px);
 }
 
 .student-avatar-ring {
-  font-size: 14px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(197, 166, 122, 0.25) 0%, rgba(39, 201, 63, 0.15) 100%);
+  border: 1.5px solid var(--gold-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--gold-light);
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+}
+
+.student-info-col {
+  flex: 1;
+  min-width: 0;
+}
+
+.student-name-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.student-name {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #FFFFFF;
+  line-height: 1.2;
+}
+
+.student-verified-icon {
+  display: flex;
+  align-items: center;
+}
+
+.student-sub {
+  font-size: 9px;
+  color: var(--gold-light);
+  line-height: 1.2;
+  margin-top: 2px;
+  font-weight: 500;
+}
+
+.student-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(74, 222, 128, 0.12);
+  border: 1px solid rgba(74, 222, 128, 0.28);
+  font-size: 8px;
+  font-weight: 600;
+  color: #4ADE80;
+  flex-shrink: 0;
+}
+
+.student-pulse-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #4ADE80;
+  box-shadow: 0 0 5px #4ADE80;
 }
 
 /* App Scrollable Body */
 .app-body-content {
   flex: 1;
-  padding: 4px 16px 8px;
+  padding: 4px 14px 8px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 11px;
   overflow: hidden;
 }
 
 /* Official Notice Card */
 .app-notice-card {
-  padding: 10px 12px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, rgba(197, 166, 122, 0.18) 0%, rgba(27, 46, 36, 0.5) 100%);
-  border: 1px solid rgba(197, 166, 122, 0.35);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 11px 13px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(197, 166, 122, 0.16) 0%, rgba(27, 46, 36, 0.55) 100%);
+  border: 1px solid rgba(197, 166, 122, 0.32);
+  border-left: 3px solid var(--gold);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
 .notice-card-tag {
@@ -2851,24 +2929,24 @@
   height: 5px;
   border-radius: 50%;
   background: #FF5F56;
-  box-shadow: 0 0 5px #FF5F56;
+  box-shadow: 0 0 6px #FF5F56;
 }
 
 .notice-card-headline {
-  font-size: 11px;
+  font-size: 11.5px;
   font-weight: 600;
   line-height: 1.35;
   color: #FFFFFF;
-  margin-top: 4px;
+  margin-top: 5px;
 }
 
 .notice-card-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 8px;
+  font-size: 8.5px;
   color: rgba(253, 251, 246, 0.65);
-  margin-top: 6px;
+  margin-top: 7px;
 }
 
 .notice-link {
@@ -2893,13 +2971,14 @@
 }
 
 .module-tile {
-  padding: 8px 10px;
+  padding: 8px 8px;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
+  min-width: 0;
   transition: background 0.2s ease, transform 0.2s ease;
 }
 
@@ -2915,41 +2994,62 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 13px;
   flex-shrink: 0;
+}
+
+.module-icon-wrap--gold {
+  background: rgba(197, 166, 122, 0.18);
+  color: var(--gold-light);
+}
+
+.module-icon-wrap--green {
+  background: rgba(74, 222, 128, 0.16);
+  color: #4ADE80;
+}
+
+.module-icon-wrap--blue {
+  background: rgba(56, 189, 248, 0.16);
+  color: #38BDF8;
+}
+
+.module-icon-wrap--purple {
+  background: rgba(192, 132, 252, 0.16);
+  color: #C084FC;
 }
 
 .module-info {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  min-width: 0;
 }
 
 .module-info strong {
   font-size: 10px;
   font-weight: 600;
   color: #FFFFFF;
-  line-height: 1.1;
+  line-height: 1.15;
   white-space: nowrap;
+  letter-spacing: -0.01em;
 }
 
 .module-info span {
   font-size: 8px;
-  color: rgba(253, 251, 246, 0.6);
+  color: rgba(253, 251, 246, 0.65);
   line-height: 1.2;
-  margin-top: 2px;
+  margin-top: 1px;
   white-space: nowrap;
+  letter-spacing: -0.01em;
 }
 
-/* Bottom Android Navigation Bar */
+/* Flutter Bottom Navigation Bar */
 .app-bottom-nav {
-  height: 48px;
-  background: #091510;
+  height: 52px;
+  background: #08120D;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding: 0 8px;
+  padding: 0 6px;
   flex-shrink: 0;
 }
 
@@ -2961,16 +3061,32 @@
   font-size: 8px;
   font-weight: 600;
   color: rgba(253, 251, 246, 0.45);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.nav-tab-indicator {
+  padding: 3px 12px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
 }
 
 .nav-tab.active {
   color: var(--gold);
 }
 
-/* Android Gesture Bar */
+.nav-tab.active .nav-tab-indicator {
+  background: rgba(197, 166, 122, 0.2);
+  color: var(--gold);
+}
+
+/* Home Gesture Indicator */
 .android-home-gesture {
   height: 16px;
-  background: #091510;
+  background: #08120D;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2978,10 +3094,10 @@
 }
 
 .android-gesture-bar {
-  width: 72px;
+  width: 76px;
   height: 3.5px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.45);
 }
 
 .work-content-editorial {
@@ -3060,10 +3176,34 @@
     grid-template-columns: 1fr;
   }
   .work-media-preview {
-    min-height: 320px;
+    min-height: auto;
+    padding: 56px 16px 48px;
   }
   .work-content-editorial {
     padding: 32px 24px;
+  }
+  .floating-app-badge--top {
+    top: 16px;
+    right: 16px;
+  }
+  .floating-app-badge--bottom {
+    bottom: 16px;
+    left: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .phone-device {
+    width: 288px;
+    height: 560px;
+    border-radius: 38px;
+  }
+  .phone-screen {
+    border-radius: 32px;
+  }
+  .floating-app-badge {
+    font-size: 10px;
+    padding: 6px 12px;
   }
 }
 

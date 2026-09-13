@@ -152,18 +152,18 @@ export const WHY_POINTS = [
 export const PROJECTS = [
   {
     id: 1,
-    name: 'SNPIT. Official Campus Android App',
-    category: 'Mobile Application — Education & Campus Ecosystem',
+    name: 'SNPIT Official Campus Mobile App',
+    category: 'Cross-Platform Mobile App — Flutter & Dart',
     client: 'S. N. Patel Institute of Technology',
     tagline: 'Empowering Campus Connectivity & Academic Workflow',
-    description: 'An official Android mobile application engineered for SNPIT college to digitize the entire campus experience. Streamlines student and faculty access to real-time circulars, academic timetables, exam notifications, attendance updates, and institutional resources in one unified, calm, and performance-optimized mobile interface.',
+    description: 'An official cross-platform mobile application engineered for S. N. Patel Institute of Technology using Flutter & Dart. Delivers a native 60fps mobile experience across Android & iOS, synchronizing real-time official notices, academic timetables, mid-sem exam schedules, attendance analytics, and faculty directories in one unified, calm, and performance-driven mobile ecosystem.',
     year: '2025',
     metrics: [
       { label: 'Timeline', value: '8 Weeks' },
-      { label: 'Platform', value: 'Android OS' },
-      { label: 'Audience', value: 'Students & Faculty' },
+      { label: 'Engine', value: 'Flutter • Dart' },
+      { label: 'Platform', value: 'Android & iOS' },
     ],
-    tags: ['Android App', 'Mobile Development', 'UI/UX Design', 'Campus Portal', 'Real-Time Sync'],
+    tags: ['Flutter', 'Dart', 'Cross-Platform', 'Mobile App', 'Campus ERP', 'UI/UX Design', 'Real-Time Sync'],
   },
 ];
 
