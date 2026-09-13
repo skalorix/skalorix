@@ -4,7 +4,7 @@ import * as THREE from 'three';
 
 const SERVICE_LABELS = ['Strategy', 'Creative', 'Social', 'SEO', 'Web', 'Software'];
 
-export default function OrbitalEcosystem({ scrollProgress = 0, isMobile = false }) {
+export default function OrbitalEcosystem({ scrollProgressRef, isMobile = false }) {
   const groupRef = useRef();
   const coreRef = useRef();
   const orbitsRef = useRef([]);
@@ -52,7 +52,7 @@ export default function OrbitalEcosystem({ scrollProgress = 0, isMobile = false 
       const yOffset = Math.sin(time * 0.5 + i) * (isMobile ? 0.18 : 0.3);
       
       // Animate into position based on scroll
-      const progress = Math.min(1, scrollProgress * 2);
+      const progress = Math.min(1, (scrollProgressRef?.current ?? 0) * 2);
       const targetRadius = radius * progress;
       
       mesh.position.x = Math.cos(angle) * targetRadius;

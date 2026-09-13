@@ -11,8 +11,10 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function DigitalExperience() {
   const sectionRef = useRef(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const canvasWrapRef = useRef(null);
+  const scrollProgressRef = useRef(0);
   const isMobile = useIsMobile();
+  const [frameloop, setFrameloop] = useState('never');
 
   useEffect(() => {
     const trigger = ScrollTrigger.create({
@@ -21,11 +23,22 @@ export default function DigitalExperience() {
       end: 'bottom top',
       scrub: true,
       onUpdate: (self) => {
-        setScrollProgress(self.progress);
+        scrollProgressRef.current = self.progress;
       },
     });
 
     return () => trigger.kill();
+  }, []);
+
+  useEffect(() => {
+    const el = canvasWrapRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setFrameloop(entry.isIntersecting ? 'always' : 'never'),
+      { rootMargin: '80px', threshold: 0.01 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
   }, []);
 
   useEffect(() => {
@@ -61,18 +74,19 @@ export default function DigitalExperience() {
 
   return (
     <section ref={sectionRef} className="section section--dark digital-experience">
-      <div className="canvas-wrapper" aria-hidden="true">
+      <div ref={canvasWrapRef} className="canvas-wrapper" aria-hidden="true">
         <Canvas
           camera={{ position: isMobile ? [0, 0.45, 7.2] : [0, 1, 6], fov: isMobile ? 46 : 50 }}
-          dpr={Math.min(window.devicePixelRatio, 1.5)}
-          gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
+          dpr={Math.min(window.devicePixelRatio, 1.25)}
+          frameloop={frameloop}
+          gl={{ antialias: !isMobile, alpha: true, powerPreference: 'high-performance' }}
         >
           <Suspense fallback={null}>
             <ambientLight intensity={0.25} />
             <directionalLight position={[3, 5, 3]} intensity={0.5} color={0xF8F4EA} />
             <pointLight position={[-3, 2, -2]} intensity={0.8} color={0xD4B483} distance={10} />
             
-            <OrbitalEcosystem scrollProgress={scrollProgress} isMobile={isMobile} />
+            <OrbitalEcosystem scrollProgressRef={scrollProgressRef} isMobile={isMobile} />
             
             <Environment preset="night" environmentIntensity={0.2} />
             <fog attach="fog" args={['#1B2E24', 6, 18]} />

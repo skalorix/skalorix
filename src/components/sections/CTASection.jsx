@@ -155,7 +155,8 @@ export default function CTASection() {
         />
 
         <div className="cta-section__content" style={{ position: 'relative', zIndex: 2 }}>
-          <h2 className="cta-section__title" style={{ fontFamily: 'var(--font-display)', fontWeight: 300, fontSize: 'clamp(36px, 5.5vw, 64px)', lineHeight: 0.95, color: 'var(--ivory)' }}>
+          <div className="section-head--center" style={{ marginBottom: 0 }}>
+          <h2 className="cta-section__title" style={{ fontFamily: 'var(--font-display)', fontWeight: 300, fontSize: 'clamp(36px, 5.5vw, 64px)', lineHeight: 1.05, color: 'var(--ivory)' }}>
             Ready to Build<br />
             <em style={{ fontStyle: 'italic', color: 'var(--gold-light)' }}>What's Next?</em>
           </h2>
@@ -163,6 +164,7 @@ export default function CTASection() {
           <p className="cta-section__subtitle" style={{ fontSize: '17px', lineHeight: 1.7, color: 'rgba(253,251,246,0.72)', maxWidth: '540px', margin: '20px auto 32px' }}>
             Have a project in mind, a business to scale, or a digital challenge? Let's build something meaningful together.
           </p>
+          </div>
 
           {/* Response Badges */}
           <div style={{ display: 'flex', justifyContent: 'center', gap: '24px', fontSize: '13px', color: 'rgba(253,251,246,0.7)', marginBottom: '40px', flexWrap: 'wrap' }}>

@@ -37,7 +37,7 @@ export default function SelectedWork() {
   return (
     <section ref={sectionRef} className="section" id="work" style={{ background: 'var(--ivory)' }}>
       <div className="container">
-        <div className="section-head" style={{ textAlign: 'center', marginBottom: '56px' }}>
+        <div className="section-head section-head--center">
           <SectionLabel text="Selected Work" />
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(36px, 5vw, 56px)', fontWeight: 300, color: 'var(--forest)' }}>
             Real Projects. Real Impact.

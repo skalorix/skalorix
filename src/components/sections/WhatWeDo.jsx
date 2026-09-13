@@ -36,7 +36,7 @@ export default function WhatWeDo() {
   return (
     <section ref={sectionRef} className="services-section-editorial" id="services">
       <div className="container" style={{ marginTop: '30px' }}>
-        <div className="section-head services-header-reveal" style={{ textAlign: 'center', marginBottom: '56px' }}>
+        <div className="section-head section-head--center services-header-reveal">
           <SectionLabel text="What We Do" />
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(36px, 5vw, 56px)', fontWeight: 300, color: 'var(--forest)' }}>
             Technology That Moves You Forward.

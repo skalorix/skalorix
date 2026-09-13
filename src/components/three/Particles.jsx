@@ -35,20 +35,11 @@ export default function Particles({ count = 200, isMobile = false }) {
   }, [particleCount]);
 
   useFrame((state) => {
-    const time = state.clock.getElapsedTime();
-    
-    if (meshRef.current) {
-      const posArray = meshRef.current.geometry.attributes.position.array;
-      
-      for (let i = 0; i < particleCount; i++) {
-        const i3 = i * 3;
-        // Gentle floating movement
-        posArray[i3 + 1] += Math.sin(time * 0.2 + i * 0.1) * 0.0005;
-        posArray[i3] += Math.cos(time * 0.15 + i * 0.05) * 0.0003;
-      }
-      
-      meshRef.current.geometry.attributes.position.needsUpdate = true;
-    }
+    if (!meshRef.current) return;
+    const t = state.clock.getElapsedTime();
+    meshRef.current.rotation.y = t * 0.018;
+    meshRef.current.rotation.x = Math.sin(t * 0.12) * 0.04;
+    meshRef.current.position.y = Math.sin(t * 0.2) * 0.08;
   });
 
   return (

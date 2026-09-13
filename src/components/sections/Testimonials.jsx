@@ -34,7 +34,7 @@ export default function Testimonials() {
   return (
     <section className="testimonials-section" id="testimonials">
       <div className="container">
-        <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+        <div className="section-head section-head--center">
           <SectionLabel text="Client Perspectives" />
           <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(32px, 4.5vw, 48px)', fontWeight: 300, color: 'var(--forest)' }}>
             Trusted by Builders & Visionaries.

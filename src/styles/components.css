@@ -1934,6 +1934,41 @@
   text-align: center;
 }
 
+.section-head--center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 56px;
+  max-width: 780px;
+  width: 100%;
+}
+
+.section-head--center .section-label {
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.section-head--center h2 {
+  text-align: center;
+  margin: 0;
+  line-height: 1.12;
+}
+
+.section-head--center p {
+  text-align: center;
+  margin: 16px auto 0;
+  line-height: 1.7;
+  max-width: 640px;
+}
+
+.cta-section__content .section-head--center .cta-section__title,
+.cta-section__content .section-head--center .cta-section__subtitle {
+  text-align: center;
+}
+
 .section-head h2 {
   font-family: var(--font-display);
   font-size: clamp(36px, 5vw, 56px);

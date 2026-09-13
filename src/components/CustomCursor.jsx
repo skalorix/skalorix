@@ -32,8 +32,8 @@ export default function CustomCursor() {
       // Automatically detect interactive clickable targets under cursor
       const target = e.target;
       if (target && target.closest) {
-        const isClickable = target.closest('a, button, [role="button"], input[type="submit"], input[type="button"], .btn-pill, .interactive, summary, [tabindex="0"]');
-        setAutoInteractive(Boolean(isClickable));
+        const isClickable = Boolean(target.closest('a, button, [role="button"], input[type="submit"], input[type="button"], .btn-pill, .interactive, summary, [tabindex="0"]'));
+        setAutoInteractive((prev) => (prev === isClickable ? prev : isClickable));
       }
     };
 

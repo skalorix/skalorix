@@ -1,4 +1,4 @@
-import { Suspense, useRef, useEffect, useCallback } from 'react';
+import { Suspense, useRef, useEffect, useCallback, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { Environment } from '@react-three/drei';
 import HeroSculpture from './three/HeroSculpture';
@@ -6,8 +6,21 @@ import Particles from './three/Particles';
 import { useIsMobile } from '../hooks/useMediaQuery';
 
 export default function HeroScene() {
+  const wrapRef = useRef(null);
   const mouseRef = useRef({ x: 0, y: 0 });
   const isMobile = useIsMobile();
+  const [frameloop, setFrameloop] = useState('always');
+
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setFrameloop(entry.isIntersecting ? 'always' : 'never'),
+      { rootMargin: '80px', threshold: 0.01 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   const handleMouseMove = useCallback((e) => {
     mouseRef.current = {
@@ -23,12 +36,13 @@ export default function HeroScene() {
   }, [handleMouseMove, isMobile]);
 
   return (
-    <div className="canvas-wrapper" aria-hidden="true">
+    <div ref={wrapRef} className="canvas-wrapper" aria-hidden="true">
       <Canvas
         camera={{ position: [0, 0, 7], fov: 45 }}
-        dpr={Math.min(window.devicePixelRatio, 1.5)}
+        dpr={Math.min(window.devicePixelRatio, 1.25)}
+        frameloop={frameloop}
         gl={{
-          antialias: true,
+          antialias: !isMobile,
           alpha: true,
           powerPreference: 'high-performance',
         }}
