@@ -74,9 +74,18 @@ export default function WhatWeDo() {
                 </div>
 
                 <div className="service-accordion-desc">
+                  {/* Mobile visual image */}
+                  <div className="service-mobile-image-wrap">
+                    <img
+                      src={service.image}
+                      alt={service.name}
+                      className="service-mobile-image"
+                      loading="lazy"
+                    />
+                  </div>
                   <p>{service.desc}</p>
                   <a href="#contact" className="explore-link">
-                    Explore Service
+                    Explore Service <span>→</span>
                   </a>
                 </div>
               </div>
@@ -89,33 +98,22 @@ export default function WhatWeDo() {
           <div className="visual-number-watermark">{activeService.num}</div>
 
           <div className="visual-art-panel">
+            {/* Themed Service Background Artwork */}
+            <img
+              key={activeService.num}
+              src={activeService.image}
+              alt={activeService.name}
+              className="visual-art-image"
+            />
+            <div className="visual-art-overlay" />
+
             <div className="visual-art-inner">
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div
-                  style={{
-                    width: '42px',
-                    height: '42px',
-                    borderRadius: '50%',
-                    background: 'rgba(253,251,246,0.10)',
-                    border: '1px solid rgba(253,251,246,0.18)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'var(--gold-light)',
-                  }}
-                >
+              <div className="visual-top-bar">
+                <div className="visual-badge-icon">
                   <Sparkles size={18} />
                 </div>
-                <span
-                  style={{
-                    fontSize: '11px',
-                    letterSpacing: '0.18em',
-                    textTransform: 'uppercase',
-                    color: 'rgba(253,251,246,0.65)',
-                    fontWeight: 600,
-                  }}
-                >
-                  Skalorix Lab
+                <span className="visual-badge-label">
+                  Skalorix Lab • {activeService.num}
                 </span>
               </div>
 
@@ -135,11 +133,11 @@ export default function WhatWeDo() {
             </div>
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '16px' }}>
-            <span style={{ fontSize: '11px', letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--text-mute)', fontWeight: 600 }}>
+          <div className="visual-footer-bar">
+            <span className="visual-footer-label">
               Selected Discipline
             </span>
-            <span style={{ fontSize: '13px', color: 'var(--forest)', fontWeight: 600 }}>
+            <span className="visual-footer-count">
               {activeService.num} / 0{SERVICES.length}
             </span>
           </div>

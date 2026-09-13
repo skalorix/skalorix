@@ -37,7 +37,7 @@ export const NAV_ITEMS = [
   { label: 'Contact', href: '#contact' },
 ];
 
-// Services (6 Core Disciplines with interactive tags for the split visual explorer)
+// Services (6 Core Disciplines with interactive tags and themed visual artwork)
 export const SERVICES = [
   {
     num: '01',
@@ -46,6 +46,7 @@ export const SERVICES = [
     desc: 'High-performance, SEO-ready web platforms engineered with modern frameworks, edge rendering, and obsessive attention to speed and craft.',
     tags: ['React', 'Next.js', 'Performance', 'Full-Stack'],
     capabilities: ['UI/UX Design', 'Frontend Engineering', 'CMS Integration', 'E-Commerce', 'Performance Optimization', 'Responsive Layouts'],
+    image: '/assets/services/service-web-development.jpg',
   },
   {
     num: '02',
@@ -54,6 +55,7 @@ export const SERVICES = [
     desc: 'Custom business software and application ecosystems that replace chaos with clarity. Scalable, modular, secure, and built to evolve.',
     tags: ['Custom Architecture', 'Cloud APIs', 'Databases', 'Modular'],
     capabilities: ['Web Applications', 'Mobile Development', 'API Design', 'Database Architecture', 'Cloud Infrastructure', 'Automation'],
+    image: '/assets/services/service-software-development.jpg',
   },
   {
     num: '03',
@@ -62,6 +64,7 @@ export const SERVICES = [
     desc: 'Technical SEO, search intelligence, and structured content architecture for compounding organic visibility — not tricks, but lasting authority.',
     tags: ['Technical Audits', 'Keyword Strategy', 'Search Intelligence'],
     capabilities: ['Technical Audits', 'Keyword Strategy', 'Content Optimization', 'Link Building', 'Local SEO', 'Analytics & Reporting'],
+    image: '/assets/services/service-seo.jpg',
   },
   {
     num: '04',
@@ -70,6 +73,7 @@ export const SERVICES = [
     desc: 'From distinct brand identity to editorial design systems and campaign visuals, we craft work that cuts through noise and builds lasting recognition.',
     tags: ['Brand Identity', 'Editorial Design', 'Motion Art'],
     capabilities: ['Brand Identity', 'Visual Design', 'Motion Graphics', 'Campaign Creative', 'Packaging Design', 'Typography Direction'],
+    image: '/assets/services/service-creative-services.jpg',
   },
   {
     num: '05',
@@ -78,6 +82,7 @@ export const SERVICES = [
     desc: 'Strategic paid social campaigns that acquire qualified audiences, accelerate growth loops, and turn attention into measurable business outcomes.',
     tags: ['Paid Media', 'Targeting', 'Conversion Optimization'],
     capabilities: ['Paid Social Campaigns', 'Audience Targeting', 'A/B Testing', 'Conversion Optimization', 'Performance Analytics', 'Growth Loops'],
+    image: '/assets/services/service-social-media-marketing.jpg',
   },
   {
     num: '06',
@@ -86,6 +91,7 @@ export const SERVICES = [
     desc: 'We cultivate your digital presence with intention — editorial content ecosystems, consistent brand voice, and genuine community engagement.',
     tags: ['Content Strategy', 'Community Growth', 'Brand Voice'],
     capabilities: ['Content Calendars', 'Community Management', 'Platform Strategy', 'Content Creation', 'Engagement Analysis', 'Brand Voice'],
+    image: '/assets/services/service-social-media-management.jpg',
   },
 ];
 
@@ -177,5 +183,5 @@ export const TESTIMONIALS = [
 export const SOCIALS = [
   { label: 'Instagram', href: 'https://www.instagram.com/skalorixofficial/' },
   { label: 'LinkedIn', href: 'https://linkedin.com' },
-  { label: 'Twitter', href: 'https://twitter.com' },
+  { label: 'Twitter', href: 'https://x.com/skalorix' },
 ];
