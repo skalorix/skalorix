@@ -173,10 +173,10 @@ export default function SelectedWork() {
 
                     {/* Student Profile Identity Chip */}
                     <div className="student-profile-chip">
-                      <div className="student-avatar-ring">AV</div>
+                      <div className="student-avatar-ring">S</div>
                       <div className="student-info-col">
                         <div className="student-name-row">
-                          <span className="student-name">Aditya Vani</span>
+                          <span className="student-name">Skalorix</span>
                           <span className="student-verified-icon">
                             <svg width="11" height="11" viewBox="0 0 24 24" fill="#4ADE80">
                               <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
