@@ -72,6 +72,7 @@ html {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   scroll-behavior: auto; /* Lenis handles smooth scrolling */
+  overflow-x: hidden;
 }
 
 body {
@@ -81,6 +82,11 @@ body {
   background-color: var(--parchment);
   line-height: 1.6;
   overflow-x: hidden;
+}
+
+#root {
+  overflow-x: hidden;
+  width: 100%;
 }
 
 /* Selection */

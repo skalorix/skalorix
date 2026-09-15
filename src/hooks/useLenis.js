@@ -10,10 +10,12 @@ export function useLenis() {
 
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 1.1,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       smoothWheel: true,
+      touchMultiplier: 1.2,
+      smoothTouch: false,
     });
 
     lenisRef.current = lenis;
@@ -21,14 +23,16 @@ export function useLenis() {
     // Sync Lenis with GSAP ScrollTrigger
     lenis.on('scroll', ScrollTrigger.update);
 
-    gsap.ticker.add((time) => {
+    const tickerCallback = (time) => {
       lenis.raf(time * 1000);
-    });
-    gsap.ticker.lagSmoothing(0);
+    };
+
+    gsap.ticker.add(tickerCallback);
+    gsap.ticker.lagSmoothing(500, 33);
 
     return () => {
       lenis.destroy();
-      gsap.ticker.remove(lenis.raf);
+      gsap.ticker.remove(tickerCallback);
     };
   }, []);
 

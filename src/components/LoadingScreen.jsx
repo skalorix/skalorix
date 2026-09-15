@@ -23,9 +23,9 @@ export default function LoadingScreen({ onComplete }) {
       opacity: 1,
       y: 0,
       scale: 1,
-      duration: 0.75,
+      duration: 0.85,
       ease: 'power3.out',
-      delay: 0.15,
+      delay: 0.2,
     });
 
     // Letter-by-letter reveal with blur + vertical + opacity
@@ -33,40 +33,40 @@ export default function LoadingScreen({ onComplete }) {
       opacity: 1,
       y: 0,
       filter: 'blur(0px)',
-      duration: 0.6,
-      stagger: 0.07,
+      duration: 0.65,
+      stagger: 0.08,
       ease: 'power3.out',
-    }, '-=0.45');
+    }, '-=0.4');
 
     // Subtle letter spacing expansion
     tl.to(containerRef.current?.querySelector('.loading-screen__wordmark'), {
-      letterSpacing: '0.2em',
-      duration: 0.8,
+      letterSpacing: '0.22em',
+      duration: 0.9,
       ease: 'power2.out',
     }, '-=0.3');
 
     // Tagline fade in
     tl.to(taglineRef.current, {
       opacity: 1,
-      duration: 0.8,
+      duration: 0.85,
       ease: 'power2.out',
-    }, '-=0.3');
+    }, '-=0.4');
 
     // Soft Ochre line sweep
     tl.to(lineRef.current, {
       width: '100%',
-      duration: 1,
+      duration: 1.1,
       ease: 'power2.inOut',
-    }, '-=0.4');
+    }, '-=0.5');
 
-    // Hold briefly
-    tl.to({}, { duration: 0.3 });
+    // Luxurious hold so user can appreciate the brand emblem and tagline
+    tl.to({}, { duration: 0.85 });
 
-    // Fade out everything
+    // Smooth graceful fade out
     tl.to(containerRef.current, {
       opacity: 0,
-      duration: 0.6,
-      ease: 'power2.in',
+      duration: 0.7,
+      ease: 'power2.inOut',
     });
 
     return () => tl.kill();

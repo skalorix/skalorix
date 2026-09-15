@@ -16,6 +16,7 @@ export default function CustomCursor() {
   const mousePos = useRef({ x: -100, y: -100 });
   const reticlePos = useRef({ x: -100, y: -100 });
   const rafRef = useRef(null);
+  const lastHoverTarget = useRef(null);
 
   useEffect(() => {
     if (isTouch) return;
@@ -29,11 +30,12 @@ export default function CustomCursor() {
         pointRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
       }
 
-      // Automatically detect interactive clickable targets under cursor
+      // Automatically detect interactive clickable targets under cursor without redundant DOM queries
       const target = e.target;
-      if (target && target.closest) {
+      if (target && target !== lastHoverTarget.current && target.closest) {
+        lastHoverTarget.current = target;
         const isClickable = Boolean(target.closest('a, button, [role="button"], input[type="submit"], input[type="button"], .btn-pill, .interactive, summary, [tabindex="0"]'));
-        setAutoInteractive((prev) => (prev === isClickable ? prev : isClickable));
+        setAutoInteractive(isClickable);
       }
     };
 

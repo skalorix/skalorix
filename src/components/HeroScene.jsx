@@ -3,12 +3,13 @@ import { Canvas } from '@react-three/fiber';
 import { Environment } from '@react-three/drei';
 import HeroSculpture from './three/HeroSculpture';
 import Particles from './three/Particles';
-import { useIsMobile } from '../hooks/useMediaQuery';
+import { useIsMobile, useIsTablet } from '../hooks/useMediaQuery';
 
 export default function HeroScene() {
   const wrapRef = useRef(null);
   const mouseRef = useRef({ x: 0, y: 0 });
   const isMobile = useIsMobile();
+  const isTablet = useIsTablet();
   const [frameloop, setFrameloop] = useState('always');
 
   useEffect(() => {
@@ -30,16 +31,24 @@ export default function HeroScene() {
   }, []);
 
   useEffect(() => {
-    if (isMobile) return;
+    if (isMobile || isTablet) return;
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [handleMouseMove, isMobile]);
+  }, [handleMouseMove, isMobile, isTablet]);
+
+  const sculpturePosition = isMobile 
+    ? [0.6, 1.4, 1] 
+    : isTablet 
+    ? [1.85, 0.05, -0.4] 
+    : [2.90, -0.05, -0.4];
+
+  const sculptureScale = isMobile ? 0.3 : isTablet ? 0.82 : 1.05;
 
   return (
     <div ref={wrapRef} className="canvas-wrapper" aria-hidden="true">
       <Canvas
         camera={{ position: [0, 0, 7], fov: 45 }}
-        dpr={Math.min(window.devicePixelRatio, 1.25)}
+        dpr={isMobile ? 1 : Math.min(window.devicePixelRatio, 1.25)}
         frameloop={frameloop}
         gl={{
           antialias: !isMobile,
@@ -62,7 +71,7 @@ export default function HeroScene() {
           {/* Soft Ochre rim light */}
           <pointLight
             position={[-4, 3, -2]}
-            intensity={1.5}
+            intensity={1.4}
             color={0xE8C07A}
             distance={15}
           />
@@ -70,26 +79,28 @@ export default function HeroScene() {
           {/* Cool fill light */}
           <pointLight
             position={[3, -2, 4]}
-            intensity={0.6}
+            intensity={0.5}
             color={0x8BA99C}
             distance={12}
           />
 
           {/* Bottom accent */}
-          <pointLight
-            position={[0, -4, 0]}
-            intensity={0.4}
-            color={0x1B2E24}
-            distance={10}
-          />
+          {!isMobile && (
+            <pointLight
+              position={[0, -4, 0]}
+              intensity={0.35}
+              color={0x1B2E24}
+              distance={10}
+            />
+          )}
 
           <HeroSculpture
             mouse={mouseRef}
-            position={isMobile ? [0.6, 1.4, 1] : [2.90, -0.05, -0.4]}
-            scale={isMobile ? 0.3 : 1.05}
+            position={sculpturePosition}
+            scale={sculptureScale}
             isMobile={isMobile}
           />
-          <Particles count={isMobile ? 120 : 200} isMobile={isMobile} />
+          <Particles count={isMobile ? 60 : isTablet ? 120 : 180} isMobile={isMobile} />
           
           <Environment preset="city" environmentIntensity={0.25} />
 
