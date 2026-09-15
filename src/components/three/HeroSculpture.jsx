@@ -9,26 +9,49 @@ export default function HeroSculpture({ mouse, position = [1.15, -0.05, -0.3], s
   const starRef = useRef();
   const { viewport, size } = useThree();
 
-  // Pixel-perfect anchor on mobile: locks to vertical center of 4-line headline (~176px)
-  // Sits side-by-side on the right, scaled to match the exact height of the text block (~176px)
-  const responsivePosition = useMemo(() => {
-    if (isMobile) {
-      const topCenterPx = 176;
-      const rightCenterPx = 68;
-      const y = (viewport.height / 2) - (topCenterPx / size.height) * viewport.height;
-      const x = (viewport.width / 2) - (rightCenterPx / size.width) * viewport.width;
-      return [x, y, 0.1];
-    }
-    return position;
-  }, [isMobile, position, viewport.height, viewport.width, size.height, size.width]);
-
+  // Responsive anchor for all screen sizes:
+  // - Mobile: locks to vertical center of 4-line headline (~176px), shifted slightly left (~88px from right edge)
+  // - Tablet / iPad / Desktop: dynamically insets from right screen edge so it is NEVER cut off
   const responsiveScale = useMemo(() => {
     if (isMobile) {
       const targetHeightPx = 176;
       return (targetHeightPx / size.height) * (viewport.height / 2.609);
     }
-    return scale;
-  }, [isMobile, scale, size.height, viewport.height]);
+    if (size.width <= 1024) {
+      return Math.min(0.70, Math.max(0.62, (size.width / 1024) * 0.70));
+    }
+    return Math.min(1.05, Math.max(0.85, (size.width / 1440) * 1.05));
+  }, [isMobile, size.width, size.height, viewport.height]);
+
+  const responsivePosition = useMemo(() => {
+    if (isMobile) {
+      const topCenterPx = 176;
+      // Shifted slightly further left per user request (88px from right edge)
+      const rightCenterPx = 88;
+      const y = (viewport.height / 2) - (topCenterPx / size.height) * viewport.height;
+      const x = (viewport.width / 2) - (rightCenterPx / size.width) * viewport.width;
+      return [x, y, 0.1];
+    }
+
+    // Non-mobile (Tablet / iPad Air / iPad Pro / Desktop):
+    // Calculate visible width at z = -0.4 (distance from camera at z=7 is 7.4)
+    const zDepth = -0.4;
+    const dist = 7 - zDepth;
+    const vwAtDepth = viewport.width * (dist / 7);
+
+    // Model half-width on right side is ~1.075 * responsiveScale
+    const rightExtent = 1.075 * responsiveScale;
+
+    // Ensure the model is safely inset from the right screen edge on all tablets and screens
+    const rightMargin = size.width <= 1024 ? 0.30 : 0.65;
+    const targetRightX = (vwAtDepth / 2) - rightExtent - rightMargin;
+
+    // For wide desktop cap at 2.85, but on tablet / iPad Air / iPad Pro clamp safely within viewport
+    const x = Math.min(2.85, targetRightX);
+    const y = size.width <= 1024 ? 0.05 : -0.05;
+
+    return [x, y, zDepth];
+  }, [isMobile, responsiveScale, viewport.width, viewport.height, size.width, size.height]);
   // const ring1Ref = useRef();
   // const ring2Ref = useRef();
 
