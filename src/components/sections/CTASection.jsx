@@ -246,7 +246,7 @@ export default function CTASection() {
                     name="name"
                     type="text"
                     required
-                    placeholder="e.g. Alex Morgan"
+                    placeholder="e.g. Firstname Lastname"
                     value={formData.name}
                     onChange={handleChange}
                     className="cta-form__input"
@@ -264,7 +264,7 @@ export default function CTASection() {
                     name="email"
                     type="email"
                     required
-                    placeholder="e.g. alex@company.com"
+                    placeholder="e.g. xyz@abc.com"
                     value={formData.email}
                     onChange={handleChange}
                     className="cta-form__input"
@@ -284,7 +284,7 @@ export default function CTASection() {
                     id="cta-phone"
                     name="phone"
                     type="tel"
-                    placeholder="e.g. +91 94094 24528"
+                    placeholder="e.g. +91 1234567890"
                     value={formData.phone}
                     onChange={handleChange}
                     className="cta-form__input"
@@ -301,7 +301,7 @@ export default function CTASection() {
                     id="cta-company"
                     name="company"
                     type="text"
-                    placeholder="e.g. Studio Vertex"
+                    placeholder="e.g. Company Name"
                     value={formData.company}
                     onChange={handleChange}
                     className="cta-form__input"
