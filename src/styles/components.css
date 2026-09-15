@@ -884,22 +884,22 @@
     padding-top: 8px; /* Clean, subtle breathing space below navbar */
   }
   .hero__radial-glow {
-    right: 25px;
-    top: 176px;
+    right: 38px;
+    top: 155px;
     transform: translate(15%, -50%);
-    width: 240px;
-    height: 240px;
+    width: 220px;
+    height: 220px;
   }
   .hero-title__br-mobile {
     display: block;
   }
   .hero-title {
-    max-width: calc(100% - 135px);
+    max-width: calc(100% - 120px);
     font-size: clamp(28px, 7.3vw, 36px);
     line-height: 1.06;
   }
   .hero-sub {
-    margin-top: 24px;
+    margin-top: clamp(32px, 5vh, 42px);
     font-size: 15px;
     line-height: 1.65;
   }

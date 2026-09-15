@@ -10,11 +10,12 @@ export default function HeroSculpture({ mouse, position = [1.15, -0.05, -0.3], s
   const { viewport, size } = useThree();
 
   // Responsive anchor for all screen sizes:
-  // - Mobile: locks to vertical center of 4-line headline (~176px), shifted slightly left (~88px from right edge)
+  // - Mobile: compact size (138px), shifted inward to left (102px from right), vertically aligned (~155px)
+  //   so the bottom paragraph sits completely downside of the S logo with zero overlap
   // - Tablet / iPad / Desktop: dynamically insets from right screen edge so it is NEVER cut off
   const responsiveScale = useMemo(() => {
     if (isMobile) {
-      const targetHeightPx = 176;
+      const targetHeightPx = 138;
       return (targetHeightPx / size.height) * (viewport.height / 2.609);
     }
     if (size.width <= 1024) {
@@ -25,9 +26,9 @@ export default function HeroSculpture({ mouse, position = [1.15, -0.05, -0.3], s
 
   const responsivePosition = useMemo(() => {
     if (isMobile) {
-      const topCenterPx = 176;
-      // Shifted slightly further left per user request (88px from right edge)
-      const rightCenterPx = 88;
+      const topCenterPx = 155;
+      // Shifted inward to the left (102px from right edge)
+      const rightCenterPx = 102;
       const y = (viewport.height / 2) - (topCenterPx / size.height) * viewport.height;
       const x = (viewport.width / 2) - (rightCenterPx / size.width) * viewport.width;
       return [x, y, 0.1];
