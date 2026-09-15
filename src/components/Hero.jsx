@@ -71,7 +71,7 @@ export default function Hero({ isLoaded = true }) {
           <h1 ref={titleRef} className="hero-title">
             Ideas<br />
             <em>Engineered</em><br />
-            for a Brighter Tomorrow.
+            for a Brighter <br className="hero-title__br-mobile" />Tomorrow.
           </h1>
 
           <p ref={subtitleRef} className="hero-sub">

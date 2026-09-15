@@ -9,18 +9,18 @@ export default function HeroSculpture({ mouse, position = [1.15, -0.05, -0.3], s
   const starRef = useRef();
   const { viewport, size } = useThree();
 
-  // Pixel-perfect anchor on mobile: locks to 112px from top, 64px from right
-  // Ensures the 3D emblem stays alongside "Ideas" and NEVER collides with "Tomorrow." across all aspect ratios/devices
+  // Pixel-perfect anchor on mobile: locks to 124px from top, 60px from right
+  // Sits larger on the right side next to the headline while text stays safely on the left
   const responsivePosition = useMemo(() => {
     if (isMobile) {
-      const y = (viewport.height / 2) - (112 / size.height) * viewport.height;
-      const x = (viewport.width / 2) - (64 / size.width) * viewport.width;
-      return [x, y, 0.05];
+      const y = (viewport.height / 2) - (124 / size.height) * viewport.height;
+      const x = (viewport.width / 2) - (60 / size.width) * viewport.width;
+      return [x, y, 0.1];
     }
     return position;
   }, [isMobile, position, viewport.height, viewport.width, size.height, size.width]);
 
-  const responsiveScale = isMobile ? 0.26 : scale;
+  const responsiveScale = isMobile ? 0.36 : scale;
   // const ring1Ref = useRef();
   // const ring2Ref = useRef();
 
