@@ -4,6 +4,7 @@ import { SwirlO } from './ui/SkalorixLogo';
 
 export default function LoadingScreen({ onComplete }) {
   const containerRef = useRef(null);
+  const emblemRef = useRef(null);
   const lettersRef = useRef([]);
   const taglineRef = useRef(null);
   const lineRef = useRef(null);
@@ -17,16 +18,25 @@ export default function LoadingScreen({ onComplete }) {
       },
     });
 
+    // Emblem reveal with elegant scale + soft rise
+    tl.to(emblemRef.current, {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      duration: 0.75,
+      ease: 'power3.out',
+      delay: 0.15,
+    });
+
     // Letter-by-letter reveal with blur + vertical + opacity
     tl.to(lettersRef.current, {
       opacity: 1,
       y: 0,
       filter: 'blur(0px)',
       duration: 0.6,
-      stagger: 0.08,
+      stagger: 0.07,
       ease: 'power3.out',
-      delay: 0.3,
-    });
+    }, '-=0.45');
 
     // Subtle letter spacing expansion
     tl.to(containerRef.current?.querySelector('.loading-screen__wordmark'), {
@@ -82,6 +92,17 @@ export default function LoadingScreen({ onComplete }) {
         pointerEvents: isComplete ? 'none' : 'all',
       }}
     >
+      {/* Upside Emblem Logo above SKALORIX name */}
+      <div ref={emblemRef} className="loading-screen__emblem-wrapper">
+        <div className="loading-screen__emblem-glow" aria-hidden="true" />
+        <img
+          src="/assets/skalorix-s-logo.png"
+          alt="Skalorix Emblem"
+          className="loading-screen__emblem-img"
+          draggable="false"
+        />
+      </div>
+
       <div className="loading-screen__wordmark">
         {letterData.map((item, i) => (
           <span
