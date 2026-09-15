@@ -157,7 +157,7 @@ export const PROJECTS = [
     client: 'S. N. Patel Institute of Technology',
     tagline: 'Empowering Campus Connectivity & Academic Workflow',
     description: 'An official cross-platform mobile application engineered for S. N. Patel Institute of Technology using Flutter & Dart. Delivers a native 60fps mobile experience across Android & iOS, synchronizing real-time official notices, academic timetables, mid-sem exam schedules, attendance analytics, and faculty directories in one unified, calm, and performance-driven mobile ecosystem.',
-    year: '2025',
+    year: '2026',
     metrics: [
       { label: 'Timeline', value: '8 Weeks' },
       { label: 'Engine', value: 'Flutter • Dart' },

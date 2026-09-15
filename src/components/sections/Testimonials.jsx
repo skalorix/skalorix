@@ -80,7 +80,7 @@ export default function Testimonials() {
 
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-mute)', fontWeight: 600 }}>
                   <span>Verified Project</span>
-                  <span>2025</span>
+                  <span>2026</span>
                 </div>
               </div>
             </div>
