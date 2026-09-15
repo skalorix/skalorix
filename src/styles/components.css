@@ -2075,15 +2075,25 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.35s ease;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
   color: var(--forest);
+}
+
+.service-accordion-item:hover .service-accordion-icon {
+  border-color: var(--forest);
+  background: rgba(15, 35, 27, 0.04);
 }
 
 .service-accordion-item.active .service-accordion-icon {
   background: var(--forest);
   color: var(--ivory);
   border-color: var(--forest);
-  transform: rotate(45deg);
+  transform: rotate(180deg);
+}
+
+.service-accordion-item.active:hover .service-accordion-icon {
+  background: var(--forest);
+  color: var(--ivory);
 }
 
 .service-accordion-desc {

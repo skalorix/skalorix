@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Sparkles, ArrowUpRight } from 'lucide-react';
+import { Sparkles, ChevronDown } from 'lucide-react';
 import { SERVICES } from '../../utils/constants';
 import { useCursor } from '../../contexts/CursorContext';
 import SectionLabel from '../ui/SectionLabel';
@@ -69,7 +69,7 @@ export default function WhatWeDo() {
                   <span className="service-accordion-num">{service.num}</span>
                   <h3 className="service-accordion-name">{service.name}</h3>
                   <span className="service-accordion-icon">
-                    <ArrowUpRight size={18} />
+                    <ChevronDown size={18} strokeWidth={2.2} />
                   </span>
                 </div>
 
