@@ -9,18 +9,26 @@ export default function HeroSculpture({ mouse, position = [1.15, -0.05, -0.3], s
   const starRef = useRef();
   const { viewport, size } = useThree();
 
-  // Pixel-perfect anchor on mobile: locks to 124px from top, 60px from right
-  // Sits larger on the right side next to the headline while text stays safely on the left
+  // Pixel-perfect anchor on mobile: locks to vertical center of 4-line headline (~176px)
+  // Sits side-by-side on the right, scaled to match the exact height of the text block (~176px)
   const responsivePosition = useMemo(() => {
     if (isMobile) {
-      const y = (viewport.height / 2) - (124 / size.height) * viewport.height;
-      const x = (viewport.width / 2) - (60 / size.width) * viewport.width;
+      const topCenterPx = 176;
+      const rightCenterPx = 68;
+      const y = (viewport.height / 2) - (topCenterPx / size.height) * viewport.height;
+      const x = (viewport.width / 2) - (rightCenterPx / size.width) * viewport.width;
       return [x, y, 0.1];
     }
     return position;
   }, [isMobile, position, viewport.height, viewport.width, size.height, size.width]);
 
-  const responsiveScale = isMobile ? 0.36 : scale;
+  const responsiveScale = useMemo(() => {
+    if (isMobile) {
+      const targetHeightPx = 176;
+      return (targetHeightPx / size.height) * (viewport.height / 2.609);
+    }
+    return scale;
+  }, [isMobile, scale, size.height, viewport.height]);
   // const ring1Ref = useRef();
   // const ring2Ref = useRef();
 
