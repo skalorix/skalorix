@@ -1,5 +1,5 @@
 import { useRef, useMemo } from 'react';
-import { useFrame } from '@react-three/fiber';
+import { useFrame, useThree } from '@react-three/fiber';
 import { Float, useTexture } from '@react-three/drei';
 import * as THREE from 'three';
 import logoData from './logoPaths.json';
@@ -7,6 +7,20 @@ import logoData from './logoPaths.json';
 export default function HeroSculpture({ mouse, position = [1.15, -0.05, -0.3], scale = 1.05, isMobile = false }) {
   const groupRef = useRef();
   const starRef = useRef();
+  const { viewport, size } = useThree();
+
+  // Pixel-perfect anchor on mobile: locks to 112px from top, 64px from right
+  // Ensures the 3D emblem stays alongside "Ideas" and NEVER collides with "Tomorrow." across all aspect ratios/devices
+  const responsivePosition = useMemo(() => {
+    if (isMobile) {
+      const y = (viewport.height / 2) - (112 / size.height) * viewport.height;
+      const x = (viewport.width / 2) - (64 / size.width) * viewport.width;
+      return [x, y, 0.05];
+    }
+    return position;
+  }, [isMobile, position, viewport.height, viewport.width, size.height, size.width]);
+
+  const responsiveScale = isMobile ? 0.26 : scale;
   // const ring1Ref = useRef();
   // const ring2Ref = useRef();
 
@@ -174,7 +188,7 @@ export default function HeroSculpture({ mouse, position = [1.15, -0.05, -0.3], s
 
   return (
     <Float speed={1.2} rotationIntensity={0.12} floatIntensity={0.35}>
-      <group ref={groupRef} position={position} scale={scale}>
+      <group ref={groupRef} position={responsivePosition} scale={responsiveScale}>
         {/* Middle Sage/Emerald Ribbon */}
         <mesh
           geometry={midGeometry}
