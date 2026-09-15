@@ -151,10 +151,10 @@ export default function HeroSculpture({ mouse, position = [1.15, -0.05, -0.3], s
 
     if (groupRef.current) {
       if (isMobile) {
-        // Smooth continuous 3D idle rotation on mobile
-        groupRef.current.rotation.y = time * 0.22;
-        groupRef.current.rotation.x = Math.sin(time * 0.4) * 0.07;
-        groupRef.current.rotation.z = Math.sin(time * 0.3) * 0.03;
+        // Minimal gentle floating tilt on mobile — always stays facing front, no 360 rotation
+        groupRef.current.rotation.y = Math.sin(time * 0.7) * 0.2;
+        groupRef.current.rotation.x = Math.cos(time * 0.5) * 0.08;
+        groupRef.current.rotation.z = Math.sin(time * 0.4) * 0.03;
       } else {
         // Interactive mouse-following rotation with soft lerp damping
         const targetX = (mouse.current?.y || 0) * 0.2;

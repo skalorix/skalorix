@@ -85,8 +85,8 @@ export default function HeroScene() {
 
           <HeroSculpture
             mouse={mouseRef}
-            position={isMobile ? [0, 1.42, 0] : [2.90, -0.05, -0.4]}
-            scale={isMobile ? 0.88 : 1.05}
+            position={isMobile ? [0.6, 1.4, 1] : [2.90, -0.05, -0.4]}
+            scale={isMobile ? 0.3 : 1.05}
             isMobile={isMobile}
           />
           <Particles count={isMobile ? 120 : 200} isMobile={isMobile} />

@@ -789,18 +789,18 @@
 
 @media (max-width: 768px) {
   .hero {
-    padding: clamp(90px, 12vh, 120px) 0 50px;
+    padding: clamp(80px, 10vh, 95px) 0 50px;
     min-height: auto;
   }
   .hero__foreground-container {
-    padding-top: 210px; /* Precise headroom for the 3D ribbon sculpture centered above */
+    padding-top: 8px; /* Clean, subtle breathing space below navbar */
   }
   .hero__radial-glow {
-    right: 50%;
-    top: 220px;
-    transform: translate(50%, -50%);
-    width: 280px;
-    height: 280px;
+    right: 15%;
+    top: 120px;
+    transform: translate(0, -50%);
+    width: 240px;
+    height: 240px;
   }
   .hero-title {
     font-size: clamp(38px, 9.5vw, 54px);
