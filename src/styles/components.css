@@ -121,11 +121,25 @@
 
 /* --- Skalorix Celestial Reticle Cursor (Bespoke Non-Round Architectural Design) --- */
 @media (pointer: fine) {
-  body, 
-  a, 
-  button, 
-  [role="button"], 
+  html,
+  body,
+  *,
+  *::before,
+  *::after,
+  input,
+  textarea,
+  select,
+  button,
+  a,
+  label,
+  [role="button"],
   summary,
+  .cta-form__input,
+  .cta-form__textarea,
+  .cta-form__chip,
+  .cta-form__submit-btn,
+  .cta-form__reset-btn,
+  .btn,
   .btn-pill {
     cursor: none !important;
   }
@@ -1580,6 +1594,7 @@
   font-family: var(--font-body);
   font-size: 0.95rem;
   color: var(--parchment);
+  caret-color: var(--soft-ochre);
   outline: none;
   transition: all var(--duration-fast) var(--ease-out-expo);
   box-sizing: border-box;
