@@ -1,5 +1,5 @@
 import { useRef, useMemo } from 'react';
-import { useFrame } from '@react-three/fiber';
+import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 
 const SERVICE_LABELS = ['Strategy', 'Creative', 'Social', 'SEO', 'Web', 'Software'];
@@ -8,6 +8,10 @@ export default function OrbitalEcosystem({ scrollProgressRef, isMobile = false }
   const groupRef = useRef();
   const coreRef = useRef();
   const orbitsRef = useRef([]);
+  const { size } = useThree();
+
+  const isPortrait = size.height > size.width;
+  const isCompact = isMobile || isPortrait || size.width <= 1024;
 
   const coreMat = useMemo(() => new THREE.MeshPhysicalMaterial({
     color: 0xD4B483,
@@ -48,8 +52,8 @@ export default function OrbitalEcosystem({ scrollProgressRef, isMobile = false }
     orbitsRef.current.forEach((mesh, i) => {
       if (!mesh) return;
       const angle = (time * 0.3 + (i / SERVICE_LABELS.length) * Math.PI * 2);
-      const radius = isMobile ? (1.5 + i * 0.1) : (2.5 + i * 0.15);
-      const yOffset = Math.sin(time * 0.5 + i) * (isMobile ? 0.18 : 0.3);
+      const radius = isCompact ? (1.5 + i * 0.1) : (2.4 + i * 0.15);
+      const yOffset = Math.sin(time * 0.5 + i) * (isCompact ? 0.18 : 0.28);
       
       // Animate into position based on scroll
       const progress = Math.min(1, (scrollProgressRef?.current ?? 0) * 2);
@@ -59,7 +63,7 @@ export default function OrbitalEcosystem({ scrollProgressRef, isMobile = false }
       mesh.position.z = Math.sin(angle) * targetRadius;
       mesh.position.y = yOffset * progress;
       mesh.rotation.y = time * 0.5;
-      mesh.scale.setScalar((0.3 + progress * 0.7) * (isMobile ? 0.75 : 1.0));
+      mesh.scale.setScalar((0.3 + progress * 0.7) * (isCompact ? 0.75 : 1.0));
     });
 
     if (groupRef.current) {
@@ -68,18 +72,18 @@ export default function OrbitalEcosystem({ scrollProgressRef, isMobile = false }
   });
 
   return (
-    <group ref={groupRef} position={isMobile ? [0, 0.95, 0] : [0, 0, 0]}>
+    <group ref={groupRef} position={isCompact ? [0, 0.95, 0] : [0, 0.42, 0]}>
       {/* Central sphere - Growth */}
       <mesh ref={coreRef} material={coreMat}>
-        <sphereGeometry args={[isMobile ? 0.38 : 0.6, 32, 32]} />
+        <sphereGeometry args={[isCompact ? 0.38 : 0.52, 32, 32]} />
       </mesh>
 
       {/* Glow ring around core */}
       <mesh rotation={[Math.PI / 2, 0, 0]} material={ringMat}>
-        <torusGeometry args={[isMobile ? 0.78 : 1.2, isMobile ? 0.006 : 0.01, 8, 64]} />
+        <torusGeometry args={[isCompact ? 0.78 : 1.1, isCompact ? 0.006 : 0.009, 8, 64]} />
       </mesh>
       <mesh rotation={[Math.PI / 3, Math.PI / 4, 0]} material={ringMat}>
-        <torusGeometry args={[isMobile ? 1.15 : 1.8, isMobile ? 0.005 : 0.008, 8, 64]} />
+        <torusGeometry args={[isCompact ? 1.15 : 1.65, isCompact ? 0.005 : 0.008, 8, 64]} />
       </mesh>
 
       {/* Orbiting service elements */}

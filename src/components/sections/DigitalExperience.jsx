@@ -76,8 +76,8 @@ export default function DigitalExperience() {
     <section ref={sectionRef} className="section section--dark digital-experience">
       <div ref={canvasWrapRef} className="canvas-wrapper" aria-hidden="true">
         <Canvas
-          camera={{ position: isMobile ? [0, 0.45, 7.2] : [0, 1, 6], fov: isMobile ? 46 : 50 }}
-          dpr={[1, 2]}
+          camera={{ position: isMobile ? [0, 0.45, 7.2] : [0, 0.75, 6.3], fov: isMobile ? 46 : 48 }}
+          dpr={[1, 3]}
           frameloop={frameloop}
           gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
         >

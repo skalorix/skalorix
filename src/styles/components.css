@@ -1922,7 +1922,8 @@
 /* --- Digital Experience Section --- */
 .digital-experience {
   position: relative;
-  min-height: 100vh;
+  min-height: clamp(560px, 75vh, 740px);
+  padding: clamp(60px, 8vh, 90px) 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1980,6 +1981,18 @@
   background: rgba(212, 180, 131, 0.15);
   border-color: var(--soft-ochre);
   transform: translateY(-2px);
+}
+
+/* Tablet & Mobile in Desktop Mode Protection: prevents giant green void on tall aspect ratio */
+@media (max-aspect-ratio: 1/1) {
+  .digital-experience {
+    min-height: auto !important;
+    max-height: none !important;
+    padding: clamp(60px, 7vh, 85px) 0 !important;
+  }
+  .digital-experience__content {
+    padding-top: clamp(140px, 16vh, 175px) !important;
+  }
 }
 
 @media (max-width: 768px) {
