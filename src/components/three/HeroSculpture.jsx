@@ -7,22 +7,29 @@ import logoData from './logoPaths.json';
 export default function HeroSculpture({ mouse, position = [1.15, -0.05, -0.3], scale = 1.05, isMobile = false }) {
   const groupRef = useRef();
   const starRef = useRef();
+  const starLightRef = useRef();
   const { viewport, size } = useThree();
 
   // Responsive anchor for all screen sizes:
   // - Mobile: compact size (138px), shifted inward to left (102px from right), vertically aligned (~155px)
-  //   so the bottom paragraph sits completely downside of the S logo with zero overlap
-  // - Tablet / iPad / Desktop: dynamically insets from right screen edge so it is NEVER cut off
+  // - Tablet / iPad / Desktop / Mobile in Desktop Mode:
+  //   Dynamically insets from right screen edge so it is NEVER cut off under any aspect ratio or tilt
+  const isPortrait = size.height > size.width;
+
   const responsiveScale = useMemo(() => {
     if (isMobile) {
       const targetHeightPx = 138;
       return (targetHeightPx / size.height) * (viewport.height / 2.609);
     }
     if (size.width <= 1024) {
-      return Math.min(0.70, Math.max(0.62, (size.width / 1024) * 0.70));
+      if (isPortrait) {
+        // Mobile in Desktop Mode / Tablet Portrait: comfortable proportion
+        return Math.min(0.68, Math.max(0.55, (size.width / 1024) * 0.68));
+      }
+      return Math.min(0.72, Math.max(0.60, (size.width / 1024) * 0.72));
     }
     return Math.min(1.05, Math.max(0.85, (size.width / 1440) * 1.05));
-  }, [isMobile, size.width, size.height, viewport.height]);
+  }, [isMobile, isPortrait, size.width, size.height, viewport.height]);
 
   const responsivePosition = useMemo(() => {
     if (isMobile) {
@@ -34,27 +41,28 @@ export default function HeroSculpture({ mouse, position = [1.15, -0.05, -0.3], s
       return [x, y, 0.1];
     }
 
-    // Non-mobile (Tablet / iPad Air / iPad Pro / Desktop):
+    // Non-mobile (Tablet / iPad Air / iPad Pro / Desktop / Mobile in Desktop Mode):
     // Calculate visible width at z = -0.4 (distance from camera at z=7 is 7.4)
     const zDepth = -0.4;
     const dist = 7 - zDepth;
     const vwAtDepth = viewport.width * (dist / 7);
 
-    // Model half-width on right side is ~1.075 * responsiveScale
-    const rightExtent = 1.075 * responsiveScale;
+    // Full rightward extent accounting for star, bevels, and floating tilt rotation
+    const rightExtent = 1.35 * responsiveScale;
 
-    // Ensure the model is safely inset from the right screen edge on all tablets and screens
-    const rightMargin = size.width <= 1024 ? 0.30 : 0.65;
+    // Generous right margin so the star and wing tips NEVER clip against the screen edge
+    const rightMargin = size.width <= 1024 ? 0.52 : 0.68;
     const targetRightX = (vwAtDepth / 2) - rightExtent - rightMargin;
 
-    // For wide desktop cap at 2.85, but on tablet / iPad Air / iPad Pro clamp safely within viewport
-    const x = Math.min(2.85, targetRightX);
-    const y = size.width <= 1024 ? 0.05 : -0.05;
+    // Strict safety clamp: absolute maximum X boundary ensuring full visibility
+    const maxSafeX = (vwAtDepth / 2) - rightExtent - 0.28;
+    const x = Math.max(0.35, Math.min(Math.min(2.80, targetRightX), maxSafeX));
+
+    // When viewport is tall/portrait (e.g. mobile desktop mode), lift model up to align with hero headline
+    const y = isPortrait ? 0.38 : (size.width <= 1024 ? 0.08 : -0.05);
 
     return [x, y, zDepth];
-  }, [isMobile, responsiveScale, viewport.width, viewport.height, size.width, size.height]);
-  // const ring1Ref = useRef();
-  // const ring2Ref = useRef();
+  }, [isMobile, isPortrait, responsiveScale, viewport.width, viewport.height, size.width, size.height]);
 
   // Load high-resolution logo texture and smooth normal map
   const [logoTexture, smoothNormal] = useTexture([
@@ -66,7 +74,10 @@ export default function HeroSculpture({ mouse, position = [1.15, -0.05, -0.3], s
   useMemo(() => {
     if (logoTexture) {
       logoTexture.colorSpace = THREE.SRGBColorSpace;
-      logoTexture.anisotropy = 8;
+      logoTexture.anisotropy = 16;
+      logoTexture.generateMipmaps = true;
+      logoTexture.minFilter = THREE.LinearMipmapLinearFilter;
+      logoTexture.magFilter = THREE.LinearFilter;
       logoTexture.needsUpdate = true;
     }
   }, [logoTexture]);
@@ -93,8 +104,8 @@ export default function HeroSculpture({ mouse, position = [1.15, -0.05, -0.3], s
     },
   }), [wWorld, hWorld]);
 
-  // Helper to build extruded geometry with multi-material groups (front artwork, gold bevels/sides)
-  const buildExtrusion = (contourPts, depth, bevelSize = 0.02) => {
+  // Helper to build extruded geometry with high-resolution sculpted bevels (6 segments, 2 steps)
+  const buildExtrusion = (contourPts, depth, bevelSize = 0.024, bevelSegments = 6) => {
     const shape = new THREE.Shape();
     contourPts.forEach((p, i) => {
       if (i === 0) shape.moveTo(p[0], p[1]);
@@ -105,8 +116,8 @@ export default function HeroSculpture({ mouse, position = [1.15, -0.05, -0.3], s
     const geom = new THREE.ExtrudeGeometry(shape, {
       depth,
       bevelEnabled: true,
-      bevelSegments: 3,
-      steps: 1,
+      bevelSegments,
+      steps: 2,
       bevelSize,
       bevelThickness: bevelSize,
       UVGenerator: customUVGenerator,
@@ -117,78 +128,90 @@ export default function HeroSculpture({ mouse, position = [1.15, -0.05, -0.3], s
     const total = geom.attributes.position.count;
 
     geom.clearGroups();
-    geom.addGroup(halfCap, halfCap, 0); // Front face: full artwork texture & sheen
+    geom.addGroup(halfCap, halfCap, 0); // Front face: full artwork texture & velvety sheen
     geom.addGroup(0, halfCap, 1); // Back plate: luxury gold
-    geom.addGroup(capCount, total - capCount, 1); // Extruded sides & bevels: luxury gold
+    geom.addGroup(capCount, total - capCount, 1); // Extruded sides & sculpted bevels: luxury gold
 
     geom.computeVertexNormals();
     return geom;
   };
 
-  // 1. Top Emerald Ribbon Geometry
+  // 1. Top Emerald Ribbon Geometry (Smooth sculpted bevels)
   const topGeometry = useMemo(() => {
-    return buildExtrusion(logoData.top_ribbon, 0.16, 0.022);
+    return buildExtrusion(logoData.top_ribbon, 0.18, 0.026, 6);
   }, []);
 
   // 2. Middle Sage Ribbon Geometry
   const midGeometry = useMemo(() => {
-    return buildExtrusion(logoData.mid_ribbon, 0.14, 0.02);
+    return buildExtrusion(logoData.mid_ribbon, 0.15, 0.023, 6);
   }, []);
 
   // 3. Lower Brushed Gold Wing Geometry
   const bottomGeometry = useMemo(() => {
-    return buildExtrusion(logoData.bottom_wing, 0.16, 0.022);
+    return buildExtrusion(logoData.bottom_wing, 0.18, 0.026, 6);
   }, []);
 
-  // 4. Floating 4-Point Celestial Star Geometry
+  // 4. Floating 4-Point Celestial Star Geometry (Prominent sculpted diamond bevels)
   const starGeometry = useMemo(() => {
-    return buildExtrusion(logoData.star, 0.09, 0.016);
+    return buildExtrusion(logoData.star, 0.12, 0.034, 6);
   }, []);
 
-  // Materials
-  // A. Brushed / Polished Luxury Gold for extruded sides, bevels, and backplate
+  // Materials:
+  // A. Brushed / Polished Luxury 24K Gold for extruded sides, bevels, and backplate
   const goldSideMat = useMemo(() => new THREE.MeshPhysicalMaterial({
-    color: 0xC89B3C,
-    metalness: 0.88,
-    roughness: 0.22,
-    clearcoat: 0.6,
-    clearcoatRoughness: 0.15,
-    envMapIntensity: 1.0,
+    color: 0xD6A847,
+    metalness: 0.92,
+    roughness: 0.18,
+    clearcoat: 0.85,
+    clearcoatRoughness: 0.08,
+    envMapIntensity: 1.8,
   }), []);
 
-  // B. Silky PBR Front Material for Ribbon Faces — vibrant, rich saturation without white washout
+  // B. Silky PBR Front Material for Ribbon Faces — deep, rich emerald, sage and gold saturation without white washout
   const frontMat = useMemo(() => new THREE.MeshPhysicalMaterial({
     map: logoTexture,
     normalMap: smoothNormal,
     normalScale: new THREE.Vector2(0.12, 0.12),
-    metalness: 0.12, // Keeps the rich emerald, sage, and gold hues saturated
-    roughness: 0.32,
-    clearcoat: 0.5,
-    clearcoatRoughness: 0.18,
+    metalness: 0.08, // Very low metalness preserves maximum color saturation of emerald & gold
+    roughness: 0.35, // Soft satin finish prevents harsh white glare
+    clearcoat: 0.35, // Subtle luxury glaze
+    clearcoatRoughness: 0.20,
     envMapIntensity: 0.5,
   }), [logoTexture, smoothNormal]);
 
-  // C. Front Radiant Star Material
-  const starFrontMat = useMemo(() => new THREE.MeshPhysicalMaterial({
-    map: logoTexture,
-    normalMap: smoothNormal,
-    normalScale: new THREE.Vector2(0.15, 0.15),
-    metalness: 0.45,
-    roughness: 0.22,
-    clearcoat: 0.8,
-    clearcoatRoughness: 0.1,
-    envMapIntensity: 1.1,
-    emissive: 0xD4A853,
-    emissiveIntensity: 0.2,
-  }), [logoTexture, smoothNormal]);
+  // C. Celestial Star Jewelry Gold Material — radiant mirror gold finish with warm starlight glow
+  const starGoldMat = useMemo(() => new THREE.MeshPhysicalMaterial({
+    color: 0xFEE180,
+    metalness: 0.96,
+    roughness: 0.08,
+    clearcoat: 1.0,
+    clearcoatRoughness: 0.03,
+    reflectivity: 1.0,
+    envMapIntensity: 2.8,
+    emissive: 0xDBA834,
+    emissiveIntensity: 0.38,
+  }), []);
 
-  // D. Emerald satin accent material
+  // D. Celestial Center Diamond Jewel Material
+  const starDiamondMat = useMemo(() => new THREE.MeshPhysicalMaterial({
+    color: 0xFFFFFF,
+    metalness: 0.15,
+    roughness: 0.03,
+    clearcoat: 1.0,
+    clearcoatRoughness: 0.02,
+    reflectivity: 1.0,
+    envMapIntensity: 3.2,
+    emissive: 0xFFF3D0,
+    emissiveIntensity: 0.7,
+  }), []);
+
+  // E. Emerald satin accent material for floating spheres
   const emeraldRingMat = useMemo(() => new THREE.MeshPhysicalMaterial({
     color: 0x1B382B,
-    metalness: 0.75,
-    roughness: 0.22,
-    clearcoat: 0.8,
-    envMapIntensity: 1.2,
+    metalness: 0.78,
+    roughness: 0.20,
+    clearcoat: 0.9,
+    envMapIntensity: 1.4,
   }), []);
 
   // Dynamic interactive animations
@@ -203,8 +226,8 @@ export default function HeroSculpture({ mouse, position = [1.15, -0.05, -0.3], s
         groupRef.current.rotation.z = Math.sin(time * 0.4) * 0.03;
       } else {
         // Interactive mouse-following rotation with soft lerp damping
-        const targetX = (mouse.current?.y || 0) * 0.2;
-        const targetY = (mouse.current?.x || 0) * 0.24;
+        const targetX = (mouse.current?.y || 0) * 0.18;
+        const targetY = (mouse.current?.x || 0) * 0.22;
         groupRef.current.rotation.x += (targetX - groupRef.current.rotation.x) * 0.035;
         groupRef.current.rotation.y += (targetY - groupRef.current.rotation.y) * 0.035;
         groupRef.current.rotation.z = Math.sin(time * 0.35) * 0.02;
@@ -213,8 +236,13 @@ export default function HeroSculpture({ mouse, position = [1.15, -0.05, -0.3], s
 
     // Independent floating bob and subtle shimmer on the 4-point celestial star
     if (starRef.current) {
-      starRef.current.position.z = 0.12 + Math.sin(time * 1.8) * 0.025;
+      starRef.current.position.z = 0.13 + Math.sin(time * 1.8) * 0.025;
       starRef.current.rotation.z = Math.sin(time * 0.6) * 0.04;
+    }
+
+    // Celestial pulsing twinkle on the star center light
+    if (starLightRef.current) {
+      starLightRef.current.intensity = 2.0 + Math.sin(time * 3.2) * 0.6;
     }
   });
 
@@ -242,18 +270,29 @@ export default function HeroSculpture({ mouse, position = [1.15, -0.05, -0.3], s
           position={[0, 0, 0.025]}
         />
 
-        {/* Floating 4-Point Celestial Star with Parallax Depth */}
-        <group ref={starRef} position={[0, 0, 0.12]}>
+        {/* Floating 4-Point Celestial Star with Parallax Depth & Gem Facet */}
+        <group ref={starRef} position={[0, 0, 0.13]}>
           <mesh
             geometry={starGeometry}
-            material={[starFrontMat, goldSideMat]}
+            material={[starGoldMat, goldSideMat]}
           />
-          {/* Warm celestial glow focused on the star */}
+
+          {/* Central faceted celestial diamond star jewel */}
+          <mesh
+            position={[0.681, 0.422, 0.14]}
+            rotation={[0, 0, Math.PI / 4]}
+            material={starDiamondMat}
+          >
+            <octahedronGeometry args={[0.065, 0]} />
+          </mesh>
+
+          {/* Concentrated starlight celestial glow */}
           <pointLight
-            position={[0.7, 0.42, 0.25]}
-            intensity={1.0}
-            distance={3.5}
-            color={0xFFEBB5}
+            ref={starLightRef}
+            position={[0.681, 0.422, 0.22]}
+            intensity={2.2}
+            distance={3.2}
+            color={0xFFE8A3}
           />
         </group>
 
@@ -271,7 +310,7 @@ export default function HeroSculpture({ mouse, position = [1.15, -0.05, -0.3], s
               ]}
               material={i % 2 === 0 ? goldSideMat : emeraldRingMat}
             >
-              <sphereGeometry args={[isMobile ? 0.028 : 0.035, 12, 12]} />
+              <sphereGeometry args={[isMobile ? 0.028 : 0.035, 16, 16]} />
             </mesh>
           );
         })}

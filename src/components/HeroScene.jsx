@@ -48,51 +48,53 @@ export default function HeroScene() {
     <div ref={wrapRef} className="canvas-wrapper" aria-hidden="true">
       <Canvas
         camera={{ position: [0, 0, 7], fov: 45 }}
-        dpr={isMobile ? 1 : Math.min(window.devicePixelRatio, 1.25)}
+        dpr={[1, 2]}
         frameloop={frameloop}
         gl={{
-          antialias: !isMobile,
+          antialias: true,
           alpha: true,
           powerPreference: 'high-performance',
+        }}
+        onCreated={({ gl }) => {
+          gl.toneMapping = 4; // THREE.ACESFilmicToneMapping
+          gl.toneMappingExposure = 1.2;
         }}
         style={{ pointerEvents: 'none' }}
       >
         <Suspense fallback={null}>
-          {/* Cinematic Lighting */}
-          <ambientLight intensity={0.75} color={0xFFFAF2} />
+          {/* Studio Cinematic Lighting */}
+          <ambientLight intensity={0.65} color={0xFFFAF2} />
           
-          {/* Key light */}
+          {/* Key sunlight */}
           <directionalLight
             position={[5, 6, 6]}
-            intensity={1.2}
+            intensity={1.6}
             color={0xFFFAF2}
           />
           
-          {/* Soft Ochre rim light */}
+          {/* Rich warm gold rim light */}
           <pointLight
             position={[-4, 3, -2]}
-            intensity={1.4}
-            color={0xE8C07A}
-            distance={15}
+            intensity={2.0}
+            color={0xF5D77F}
+            distance={18}
           />
           
-          {/* Cool fill light */}
+          {/* Emerald & sage fill light */}
           <pointLight
             position={[3, -2, 4]}
-            intensity={0.5}
-            color={0x8BA99C}
-            distance={12}
+            intensity={0.85}
+            color={0x9BC8B4}
+            distance={14}
           />
 
-          {/* Bottom accent */}
-          {!isMobile && (
-            <pointLight
-              position={[0, -4, 0]}
-              intensity={0.35}
-              color={0x1B2E24}
-              distance={10}
-            />
-          )}
+          {/* Bottom subtle grounding accent */}
+          <pointLight
+            position={[0, -4, 0]}
+            intensity={0.4}
+            color={0x153024}
+            distance={10}
+          />
 
           <HeroSculpture
             mouse={mouseRef}
@@ -102,7 +104,7 @@ export default function HeroScene() {
           />
           <Particles count={isMobile ? 60 : isTablet ? 120 : 180} isMobile={isMobile} />
           
-          <Environment preset="city" environmentIntensity={0.25} />
+          <Environment preset="city" environmentIntensity={0.85} />
 
           {/* Distant fog */}
           <fog attach="fog" args={['#F8F4EA', 14, 40]} />

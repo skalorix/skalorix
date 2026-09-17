@@ -77,9 +77,9 @@ export default function DigitalExperience() {
       <div ref={canvasWrapRef} className="canvas-wrapper" aria-hidden="true">
         <Canvas
           camera={{ position: isMobile ? [0, 0.45, 7.2] : [0, 1, 6], fov: isMobile ? 46 : 50 }}
-          dpr={isMobile ? 1 : Math.min(window.devicePixelRatio, 1.25)}
+          dpr={[1, 2]}
           frameloop={frameloop}
-          gl={{ antialias: !isMobile, alpha: true, powerPreference: 'high-performance' }}
+          gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
         >
           <Suspense fallback={null}>
             <ambientLight intensity={0.25} />
