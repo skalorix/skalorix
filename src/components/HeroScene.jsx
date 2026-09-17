@@ -48,7 +48,7 @@ export default function HeroScene() {
     <div ref={wrapRef} className="canvas-wrapper" aria-hidden="true">
       <Canvas
         camera={{ position: [0, 0, 7], fov: 45 }}
-        dpr={[1, 2]}
+        dpr={[1, 3]}
         frameloop={frameloop}
         gl={{
           antialias: true,

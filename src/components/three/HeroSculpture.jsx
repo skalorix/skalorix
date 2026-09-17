@@ -80,7 +80,14 @@ export default function HeroSculpture({ mouse, position = [1.15, -0.05, -0.3], s
       logoTexture.magFilter = THREE.LinearFilter;
       logoTexture.needsUpdate = true;
     }
-  }, [logoTexture]);
+    if (smoothNormal) {
+      smoothNormal.anisotropy = 16;
+      smoothNormal.generateMipmaps = true;
+      smoothNormal.minFilter = THREE.LinearMipmapLinearFilter;
+      smoothNormal.magFilter = THREE.LinearFilter;
+      smoothNormal.needsUpdate = true;
+    }
+  }, [logoTexture, smoothNormal]);
 
   // World dimensions for exact sub-pixel UV alignment
   const wWorld = logoData.img_width * logoData.scale;
@@ -171,13 +178,13 @@ export default function HeroSculpture({ mouse, position = [1.15, -0.05, -0.3], s
   const frontMat = useMemo(() => new THREE.MeshPhysicalMaterial({
     map: logoTexture,
     normalMap: smoothNormal,
-    normalScale: new THREE.Vector2(0.12, 0.12),
+    normalScale: new THREE.Vector2(isMobile ? 0.05 : 0.12, isMobile ? 0.05 : 0.12),
     metalness: 0.08, // Very low metalness preserves maximum color saturation of emerald & gold
     roughness: 0.35, // Soft satin finish prevents harsh white glare
     clearcoat: 0.35, // Subtle luxury glaze
     clearcoatRoughness: 0.20,
     envMapIntensity: 0.5,
-  }), [logoTexture, smoothNormal]);
+  }), [logoTexture, smoothNormal, isMobile]);
 
   // C. Celestial Star Jewelry Gold Material — radiant mirror gold finish with warm starlight glow
   const starGoldMat = useMemo(() => new THREE.MeshPhysicalMaterial({
