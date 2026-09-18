@@ -15,15 +15,62 @@ import DigitalExperience from './components/sections/DigitalExperience';
 import Testimonials from './components/sections/Testimonials';
 import CTASection from './components/sections/CTASection';
 import Footer from './components/sections/Footer';
+import ServicesPage from './components/pages/ServicesPage';
 
 import './styles/index.css';
 import './styles/components.css';
 
 export default function App() {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
   
   // Initialize Lenis smooth scrolling
   const lenisRef = useLenis();
+
+  const navigate = useCallback((targetUrl) => {
+    if (!targetUrl) return;
+
+    const url = new URL(targetUrl, window.location.origin);
+    const path = url.pathname;
+    const hash = url.hash;
+
+    window.history.pushState(null, '', targetUrl);
+    setCurrentPath(path);
+
+    if (hash) {
+      setTimeout(() => {
+        const el = document.querySelector(hash);
+        if (el) {
+          if (lenisRef?.current) {
+            lenisRef.current.scrollTo(el, { duration: 1.2 });
+          } else {
+            el.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      }, 150);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [lenisRef]);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      setCurrentPath(window.location.pathname);
+    };
+
+    const handleCustomNavigate = (e) => {
+      if (e.detail) {
+        navigate(e.detail);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    window.addEventListener('navigate', handleCustomNavigate);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+      window.removeEventListener('navigate', handleCustomNavigate);
+    };
+  }, [navigate]);
 
   useEffect(() => {
     // If URL already had a hash on initial page load, clean it up
@@ -74,28 +121,34 @@ export default function App() {
     setIsLoaded(true);
   }, []);
 
+  const isServicesPage = currentPath === '/services' || currentPath === '/service';
+
   return (
     <CursorProvider>
       <CustomCursor />
       <GrainOverlay />
       
-      {!isLoaded && <LoadingScreen onComplete={handleLoadingComplete} />}
+      {!isLoaded && !isServicesPage && <LoadingScreen onComplete={handleLoadingComplete} />}
       
-      <Navigation />
+      <Navigation currentPath={currentPath} onNavigate={navigate} />
       
-      <main>
-        <Hero isLoaded={isLoaded} />
-        <WhatWeDo />
-        <AboutPartner />
-        <SelectedWork />
-        <OurApproach />
-        <WhySkalorix />
-        <DigitalExperience />
-        <Testimonials />
-        <CTASection />
-      </main>
+      {isServicesPage ? (
+        <ServicesPage onNavigate={navigate} />
+      ) : (
+        <main>
+          <Hero isLoaded={isLoaded} />
+          <WhatWeDo />
+          <AboutPartner />
+          <SelectedWork />
+          <OurApproach />
+          <WhySkalorix />
+          <DigitalExperience />
+          <Testimonials />
+          <CTASection />
+        </main>
+      )}
       
-      <Footer />
+      <Footer onNavigate={navigate} />
     </CursorProvider>
   );
 }

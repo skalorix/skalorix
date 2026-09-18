@@ -3,7 +3,7 @@ import { NAV_ITEMS } from '../utils/constants';
 import { useCursor } from '../contexts/CursorContext';
 import SkalorixLogo from './ui/SkalorixLogo';
 
-export default function Navigation() {
+export default function Navigation({ currentPath = '/', onNavigate }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { onMouseEnterInteractive, onMouseLeaveInteractive } = useCursor();
@@ -29,11 +29,40 @@ export default function Navigation() {
   const handleNavClick = useCallback((e, href) => {
     e.preventDefault();
     setMobileOpen(false);
+
+    const isServicesPage = currentPath === '/services' || currentPath === '/service';
+
+    if (href === '#home' || href === '/') {
+      if (isServicesPage) {
+        onNavigate?.('/');
+      } else {
+        const target = document.querySelector('#home');
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+        else window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      return;
+    }
+
+    if (href === '#services') {
+      if (isServicesPage) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        const target = document.querySelector('#services');
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      }
+      return;
+    }
+
+    if (isServicesPage) {
+      onNavigate?.('/' + href);
+      return;
+    }
+
     const target = document.querySelector(href);
     if (target) {
       target.scrollIntoView({ behavior: 'smooth' });
     }
-  }, []);
+  }, [currentPath, onNavigate]);
 
   return (
     <>

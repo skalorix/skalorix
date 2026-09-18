@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Sparkles, ChevronDown } from 'lucide-react';
+import { Sparkles, ChevronDown, Check, Clock, ArrowRight } from 'lucide-react';
 import { SERVICES } from '../../utils/constants';
 import { useCursor } from '../../contexts/CursorContext';
 import SectionLabel from '../ui/SectionLabel';
@@ -74,17 +74,15 @@ export default function WhatWeDo() {
                 </div>
 
                 <div className="service-accordion-desc">
-                  {/* Mobile visual image */}
-                  <div className="service-mobile-image-wrap">
-                    <img
-                      src={service.image}
-                      alt={service.name}
-                      className="service-mobile-image"
-                      loading="lazy"
-                    />
-                  </div>
                   <p>{service.desc}</p>
-                  <a href="#contact" className="explore-link">
+                  <a
+                    href={`/services?service=${service.slug}`}
+                    className="explore-link"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      window.dispatchEvent(new CustomEvent('navigate', { detail: `/services?service=${service.slug}` }));
+                    }}
+                  >
                     Explore Service <span>→</span>
                   </a>
                 </div>
@@ -93,53 +91,90 @@ export default function WhatWeDo() {
           })}
         </div>
 
-        {/* Right Sticky Live Preview Visual */}
-        <div className="service-visual-sticky">
+        {/* Right Sticky Expanded Details Card (Clean luxury editorial, no mockup image) */}
+        <div className="service-visual-sticky service-details-card">
           <div className="visual-number-watermark">{activeService.num}</div>
 
-          <div className="visual-art-panel">
-            {/* Themed Service Background Artwork */}
-            <img
-              key={activeService.num}
-              src={activeService.image}
-              alt={activeService.name}
-              className="visual-art-image"
-            />
-            <div className="visual-art-overlay" />
-
-            <div className="visual-art-inner">
+          <div className="service-details-card__inner">
+            {/* Top Bar */}
+            <div className="service-details-card__top">
               <div className="visual-top-bar">
                 <div className="visual-badge-icon">
-                  <Sparkles size={18} />
+                  <Sparkles size={16} />
                 </div>
                 <span className="visual-badge-label">
-                  Skalorix Lab • {activeService.num}
+                  Discipline • {activeService.num} / 0{SERVICES.length}
                 </span>
               </div>
+              <span className="service-details-card__price-badge">
+                From {activeService.startingPrice}
+              </span>
+            </div>
 
-              <div className="visual-meta-content">
-                <h4>{activeService.name}</h4>
-                <p>{activeService.desc}</p>
-                {activeService.tags && (
-                  <div className="visual-tags">
-                    {activeService.tags.map((tag, tIdx) => (
-                      <span key={tIdx} className="visual-tag-pill">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                )}
+            {/* Title & Editorial Description */}
+            <div className="service-details-card__header">
+              <h3 className="service-details-card__title">{activeService.name}</h3>
+              <p className="service-details-card__tagline text-italic">{activeService.tagline}</p>
+              <p className="service-details-card__desc">{activeService.desc}</p>
+            </div>
+
+            {/* Core Deliverables Matrix */}
+            <div className="service-details-card__deliverables">
+              <span className="service-details-card__section-label">Core Capabilities & Deliverables</span>
+              <ul className="service-details-card__list">
+                {activeService.coreDeliverables?.map((item, dIdx) => (
+                  <li key={dIdx} className="service-details-card__list-item">
+                    <span className="service-check-bullet">
+                      <Check size={13} />
+                    </span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Value & Delivery Metric Strip */}
+            <div className="service-details-card__metrics-strip">
+              <div className="metric-cell">
+                <Clock size={14} className="text-ochre" />
+                <span>{activeService.timeline}</span>
+              </div>
+              <div className="metric-cell">
+                <Sparkles size={14} className="text-ochre" />
+                <span>{activeService.metricsHighlight}</span>
               </div>
             </div>
-          </div>
 
-          <div className="visual-footer-bar">
-            <span className="visual-footer-label">
-              Selected Discipline
-            </span>
-            <span className="visual-footer-count">
-              {activeService.num} / 0{SERVICES.length}
-            </span>
+            {/* Technology & Standards Stack */}
+            {activeService.tags && (
+              <div className="service-details-card__tags">
+                {activeService.tags.map((tag, tIdx) => (
+                  <span key={tIdx} className="visual-tag-pill">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
+
+            {/* Action CTA to View All Packages */}
+            <div className="service-details-card__action">
+              <a
+                href={`/services?service=${activeService.slug}`}
+                className="btn-pill btn-primary service-card-main-cta"
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.dispatchEvent(new CustomEvent('navigate', { detail: `/services?service=${activeService.slug}` }));
+                }}
+                onMouseEnter={onMouseEnterInteractive}
+                onMouseLeave={onMouseLeaveInteractive}
+              >
+                <span>Explore Packages & Pricing</span>
+                <ArrowRight size={15} />
+              </a>
+              <span className="service-card-cta-hint">
+                3 Structured Tiers • Full Source Code & Asset Ownership
+              </span>
+            </div>
           </div>
         </div>
       </div>
