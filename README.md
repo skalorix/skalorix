@@ -231,6 +231,7 @@ Ready to scale your digital presence? Reach out to the SKALORIX team:
 - **Official Website**: [skalorix.com](https://skalorix.com)
 - **Direct Email**: [skalorix.work@gmail.com](mailto:skalorix.work@gmail.com)
 - **Phone**: [+91 94094 24528](tel:+919409424528)
+- **Phone**: [+91 94094 10260](tel:+919409410260)
 - **GitHub**: [@adityavani07](https://github.com/adityavani07)
 
 ---

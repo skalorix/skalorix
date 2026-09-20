@@ -583,6 +583,6 @@ export const TESTIMONIALS = [
 // Social Links
 export const SOCIALS = [
   { label: 'Instagram', href: 'https://www.instagram.com/skalorixofficial/' },
-  { label: 'LinkedIn', href: 'https://linkedin.com' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/company/skalorix' },
   { label: 'Twitter', href: 'https://x.com/skalorix' },
 ];

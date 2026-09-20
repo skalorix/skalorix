@@ -71,7 +71,7 @@ export default function Footer() {
                 <InstagramIcon size={17} />
               </a>
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/company/skalorix"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
@@ -139,6 +139,7 @@ export default function Footer() {
                 <span className="footer-contact-label">Direct Reach</span>
                 <a href="mailto:skalorix.work@gmail.com" className="footer-contact-val">skalorix.work@gmail.com</a>
                 <a href="tel:+919409424528" className="footer-contact-val">+91 94094 24528</a>
+                <a href="tel:+919409410260" className="footer-contact-val">+91 94094 10260</a>
               </div>
               <div className="footer-contact-item">
                 <span className="footer-contact-label">Presence</span>

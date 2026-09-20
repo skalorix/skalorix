@@ -5010,6 +5010,7 @@ a.footer-contact-val:hover {
   color: var(--forest);
   margin-top: 10px;
   margin-bottom: 12px;
+  text-align: center;
 }
 
 .services-faq-header p {
