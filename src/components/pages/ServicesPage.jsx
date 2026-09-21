@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Sparkles, Check, ArrowRight, ArrowLeft, ShieldCheck, Clock, Award, Calendar, FileText } from 'lucide-react';
-import { SERVICES, CONTACT_INFO } from '../../utils/constants';
+import { Sparkles, Check, ArrowRight, ArrowLeft, ShieldCheck, Clock, Award, Calendar, FileText, Plus } from 'lucide-react';
+import { SERVICES, CONTACT_INFO, CREATIVE_INDIVIDUAL_PRICING } from '../../utils/constants';
 import SectionLabel from '../ui/SectionLabel';
 import { useCursor } from '../../contexts/CursorContext';
 
@@ -73,6 +73,11 @@ export default function ServicesPage({ onNavigate }) {
     openWhatsApp(message);
   };
 
+  const handleIndividualCreativeInquiry = (item) => {
+    const message = `Hello Skalorix Team,\n\nI need an individual creative service: *${item.name}* (${item.desc} - ${item.price}).\n\nCould you please share the design turnaround and onboarding steps?\n\nThank you!`;
+    openWhatsApp(message);
+  };
+
   const handleBespokeProposal = () => {
     const message = `Hello Skalorix Team,\n\nI would like to request a *Bespoke Custom Proposal* for our business.\n\nHere is an overview of our project requirements:\n- Discipline: [Custom Software / Web Platform / SEO / Branding / Marketing]\n- Target Launch Timeline: \n- Key Goals & Scope: \n\nPlease let me know when we can connect.\n\nThank you!`;
     openWhatsApp(message);
@@ -102,11 +107,11 @@ export default function ServicesPage({ onNavigate }) {
     },
     {
       q: 'What is the typical delivery timeline?',
-      a: 'Starter web platforms launch in 7–10 days; Growth corporate platforms in 14–18 days; and custom ERP/SaaS applications in 6–8 weeks. We commit to strict sprint deadlines with weekly milestone updates.',
+      a: 'Starter web platforms launch in 5–7 days; Professional Web platforms in 10–14 days; and custom business software in 20–60 days. Creative retainer designs deliver within 1–3 working days. We commit to strict sprint deadlines with milestone updates.',
     },
     {
       q: 'Is post-launch maintenance and technical support included?',
-      a: 'Yes. Every project includes complimentary post-launch support (ranging from 1 month to 6 months depending on tier), covering security updates, bug fixes, performance monitoring, and team training.',
+      a: 'Yes. Every project includes complimentary post-launch support (ranging from 30 days to ongoing assistance depending on tier), covering security updates, bug fixes, performance monitoring, and team training.',
     },
   ];
 
@@ -232,6 +237,7 @@ export default function ServicesPage({ onNavigate }) {
                       </div>
                       <h3 className="package-name">{pkg.name}</h3>
                       <p className="package-ideal-for">{pkg.idealFor}</p>
+                      {pkg.tagline && <div className="package-category-tag">{pkg.tagline}</div>}
                       <div className="package-price-wrap">
                         <span className="package-price">{pkg.price}</span>
                         <span className="package-period">{pkg.period}</span>
@@ -273,6 +279,44 @@ export default function ServicesPage({ onNavigate }) {
                 );
               })}
             </div>
+
+            {/* Popular Creative Individual Pricing Grid (If Creative Services) */}
+            {service.slug === 'creative-services' && (
+              <div className="creative-individual-section">
+                <div className="creative-individual-header">
+                  <div className="creative-individual-title-wrap">
+                    <span className="creative-individual-pill">POPULAR CREATIVE SERVICES • INDIVIDUAL PRICING</span>
+                    <h3 className="creative-individual-title">Need Just One Design? We've Got You Covered.</h3>
+                  </div>
+                  <p className="creative-individual-subtitle">
+                    Fast turnaround, direct designer communication & transparent per-asset pricing.
+                  </p>
+                </div>
+                <div className="creative-individual-grid">
+                  {CREATIVE_INDIVIDUAL_PRICING.map((item, idx) => (
+                    <div
+                      key={idx}
+                      className="creative-item-card"
+                      onClick={() => handleIndividualCreativeInquiry(item)}
+                      onMouseEnter={onMouseEnterInteractive}
+                      onMouseLeave={onMouseLeaveInteractive}
+                      role="button"
+                      tabIndex={0}
+                      title={`Order ${item.name} (${item.price}) via WhatsApp`}
+                    >
+                      <div className="creative-item-info">
+                        <div className="creative-item-name">{item.name}</div>
+                        <div className="creative-item-desc">{item.desc}</div>
+                      </div>
+                      <div className="creative-item-price-wrap">
+                        <span className="creative-item-price">{item.price}</span>
+                        <span className="creative-item-arrow">→</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </section>
         ))}
 
