@@ -523,16 +523,16 @@ export const SERVICES = [
 export const CREATIVE_INDIVIDUAL_PRICING = [
   { name: 'Social Media Post', desc: 'Static creative', price: '₹299+', icon: 'post' },
   { name: 'Carousel Design', desc: 'Multi-slide visual', price: '₹999+', icon: 'carousel' },
-  { name: 'Instagram Story', desc: 'Vertical creative', price: '₹199+', icon: 'story' },
-  { name: 'Reel Editing', desc: 'Short video edit', price: '₹799+', icon: 'reel' },
+  // { name: 'Instagram Story', desc: 'Vertical creative', price: '₹199+', icon: 'story' },
+  // { name: 'Reel Editing', desc: 'Short video edit', price: '₹799+', icon: 'reel' },
   { name: 'YouTube Thumb', desc: 'High-click visual', price: '₹299+', icon: 'youtube' },
   { name: 'Brochure Design', desc: 'Print-ready', price: '₹1,999+', icon: 'brochure' },
-  { name: 'Flyer Design', desc: 'Promo flyer', price: '₹499+', icon: 'flyer' },
-  { name: 'Logo Design', desc: 'Brand mark', price: '₹2,999+', icon: 'logo' },
+  { name: 'Flyer Design', desc: 'Promo flyer', price: '₹999+', icon: 'flyer' },
+  { name: 'Logo Design', desc: 'Brand mark', price: '₹599+', icon: 'logo' },
   { name: 'Brand Identity', desc: 'Visual direction', price: '₹14,999+', icon: 'identity' },
   { name: 'Print & Marketing', desc: 'Banners & ads', price: 'Custom', icon: 'print' },
   { name: 'Ad Creative', desc: 'Meta & Google', price: '₹499+', icon: 'ad' },
-  { name: 'Campaign Set', desc: 'Launch visuals', price: '₹2,999+', icon: 'campaign' },
+  // { name: 'Campaign Set', desc: 'Launch visuals', price: '₹2,999+', icon: 'campaign' },
 ];
 
 // Process Steps (4-Step Connected Timeline)

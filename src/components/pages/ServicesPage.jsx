@@ -134,7 +134,7 @@ export default function ServicesPage({ onNavigate }) {
             <span className="services-page__breadcrumb-current">Services & Packages</span>
           </div>
 
-          <div className="services-page__hero-content">
+          <div className="services-page__hero-content section-head--center">
             <SectionLabel text="Transparent Value • 2026 Standards" />
             <h1 className="services-page__title">
               Engineered Solutions.{' '}
@@ -357,7 +357,7 @@ export default function ServicesPage({ onNavigate }) {
 
         {/* FAQ Accordion Section */}
         <section className="services-faq-section">
-          <div className="services-faq-header text-center">
+          <div className="services-faq-header section-head--center">
             <SectionLabel text="Transparency & Questions" />
             <h2>Frequently Asked Questions</h2>
             <p>Everything you need to know about our collaboration model, delivery standards, and terms.</p>

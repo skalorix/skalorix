@@ -94,7 +94,7 @@ export default function DigitalExperience() {
         </Canvas>
       </div>
 
-      <div className="digital-experience__content">
+      <div className="digital-experience__content section-head--center">
         <SectionLabel text="Digital Ecosystem" dark />
         <h2 className="digital-experience__title">
           Built For A Digital{' '}
